@@ -18,9 +18,14 @@ function postMenuItem(values) {
         contentType: "application/json; charset=utf-8",
         traditional: true,
         success: function(menuItem) {
-            alert("Menu Item successfully added..." + menuItem);
+            alert("Menu Item successfully added...");
         }
     });
+}
+
+function signIn(credentials) {
+
+
 }
 
 export default postMenuItem;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 
-function PageHeader() {
+function PageHeader(props) {
     return (
         <Typography variant="h2" component="h2">
-            Add Menu Item
+            {props.message}
         </Typography>
     );
 }

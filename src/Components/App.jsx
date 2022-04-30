@@ -1,24 +1,29 @@
 import React from "react";
 import "../App.css";
-import SearchAppBar from "./SearchAppBar.jsx";
+import SignInForm from "./SignInForm";
+import NavBar from "./NavBar.jsx";
 import Container from "@mui/material/Container";
-import AddForm from "./AddForm";
-import PageHeader from "./PageHeader";
+import AddForm from "./AddForm.jsx";
+import Footer from "./Footer.jsx";
 
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <SearchAppBar />
+    <main>
+      <NavBar />
       <Container
         sx={{
-          paddingY: 3
+          paddingY: 3,
         }}
       >
-        <PageHeader />
-        <AddForm />
+        <Routes>
+          <Route exact path="add" element={<AddForm />} />
+          <Route exact path="sign-in" element={<SignInForm />} />
+        </Routes>
       </Container>
-    </div>
+      <Footer />
+    </main>
   );
 }
 

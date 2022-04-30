@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import postMenuItem from "../http";
+import PageHeader from "./PageHeader";
 
 function AddForm() {
   const [values, setValues] = React.useState({
@@ -24,130 +25,136 @@ function AddForm() {
   };
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Paper
-        elevation={3}
-        sx={{ marginY: 3, height: 500, width: 600, alignItems: "center" }}
+    <div>
+      <PageHeader message="Add Menu Item" />
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
       >
-        <Grid
-          container
-          spacing={0}
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            marginTop: 3,
-          }}
+        <Paper
+          elevation={3}
+          sx={{ marginY: 3, height: 500, width: 600, alignItems: "center" }}
         >
-          <TextField
-            id="outlined-basic"
-            label="ID"
-            variant="outlined"
-            value={values.id}
-            onChange={handleChange("id")}
-            sx={{ marginX: 1 }}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Name"
-            variant="outlined"
-            value={values.name}
-            onChange={handleChange("name")}
-            sx={{ marginX: 1 }}
-          />
-        </Grid>
-        <Grid
-          container
-          spacing={0}
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            marginTop: 3,
-          }}
-        >
-          <FormControl fullWidth sx={{ maxWidth: 230, m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              value={values.price}
-              onChange={handleChange("price")}
-              startAdornment={
-                <InputAdornment position="start">$</InputAdornment>
-              }
-              label="Price"
-            />
-          </FormControl>
-          <Box sx={{ minWidth: 230, marginX: 1 }}>
-            <FormControl fullWidth>
-              <InputLabel id="select-category">Category</InputLabel>
-              <Select
-                labelId="select-category"
-                id="select-category"
-                value={values.category}
-                label="Category"
-                onChange={handleChange("category")}
-              >
-                <MenuItem value={"Appetizer"}>Appetizer</MenuItem>
-                <MenuItem value={"Salad"}>Salad</MenuItem>
-                <MenuItem value={"Burger"}>Burger</MenuItem>
-                <MenuItem value={"Special"}>Special</MenuItem>
-                <MenuItem value={"Dessert"}>Dessert</MenuItem>
-                <MenuItem value={"Entree"}>Entree</MenuItem>
-                <MenuItem value={"Side"}>Side</MenuItem>
-                <MenuItem value={"Drink"}>Drink</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <TextField
-            fullWidth
-            multiline
-            maxRows={5}
-            id="outlined-basic"
-            label="Description"
-            variant="outlined"
-            value={values.desc}
-            onChange={handleChange("desc")}
-            sx={{ marginX: 1, marginTop: 3 }}
-          />
-          <TextField
-            fullWidth
-            id="outlined-basic"
-            label="Image Path"
-            variant="outlined"
-            value={values.img}
-            onChange={handleChange("img")}
-            sx={{ marginX: 1, marginTop: 3 }}
-          />
-          <Button
-            variant="contained"
+          <Grid
+            container
+            spacing={0}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
             sx={{
               marginTop: 3,
             }}
-            onClick={() => {
-              postMenuItem(values);
-              setValues({
-                ...values,
-                id: 0,
-                category: "",
-                name: "",
-                price: 0.0,
-                desc: "",
-                img: "",
-              });
+          >
+            <TextField
+              id="id-field"
+              label="ID"
+              variant="outlined"
+              value={values.id}
+              onChange={handleChange("id")}
+              sx={{ marginX: 1 }}
+            />
+            <TextField
+              id="name-field"
+              label="Name"
+              type="text"
+              variant="outlined"
+              value={values.name}
+              onChange={handleChange("name")}
+              sx={{ marginX: 1 }}
+            />
+          </Grid>
+          <Grid
+            container
+            spacing={0}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              marginTop: 3,
             }}
           >
-            Submit
-          </Button>
-        </Grid>
-      </Paper>
-    </Grid>
+            <FormControl fullWidth sx={{ maxWidth: 230, m: 1 }}>
+              <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
+              <OutlinedInput
+                id="price-field"
+                value={values.price}
+                onChange={handleChange("price")}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="Price"
+              />
+            </FormControl>
+            <Box sx={{ minWidth: 230, marginX: 1 }}>
+              <FormControl fullWidth>
+                <InputLabel id="select-category">Category</InputLabel>
+                <Select
+                  labelId="select-category"
+                  id="select-category"
+                  value={values.category}
+                  label="Category"
+                  onChange={handleChange("category")}
+                >
+                  <MenuItem value={"Appetizer"}>Appetizer</MenuItem>
+                  <MenuItem value={"Salad"}>Salad</MenuItem>
+                  <MenuItem value={"Burger"}>Burger</MenuItem>
+                  <MenuItem value={"Special"}>Special</MenuItem>
+                  <MenuItem value={"Dessert"}>Dessert</MenuItem>
+                  <MenuItem value={"Entree"}>Entree</MenuItem>
+                  <MenuItem value={"Side"}>Side</MenuItem>
+                  <MenuItem value={"Drink"}>Drink</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <TextField
+              fullWidth
+              multiline
+              maxRows={5}
+              id="description-field"
+              label="Description"
+              variant="outlined"
+              type="text"
+              value={values.desc}
+              onChange={handleChange("desc")}
+              sx={{ marginX: 1, marginTop: 3 }}
+            />
+            <TextField
+              fullWidth
+              id="image-field"
+              label="Image Path"
+              variant="outlined"
+              type="text"
+              value={values.img}
+              onChange={handleChange("img")}
+              sx={{ marginX: 1, marginTop: 3 }}
+            />
+            <Button
+              variant="contained"
+              sx={{
+                marginTop: 3,
+              }}
+              onClick={() => {
+                postMenuItem(values);
+                setValues({
+                  ...values,
+                  id: 0,
+                  category: "",
+                  name: "",
+                  price: 0.0,
+                  desc: "",
+                  img: "",
+                });
+              }}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Paper>
+      </Grid>
+    </div>
   );
 }
 
