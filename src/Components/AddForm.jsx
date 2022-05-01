@@ -11,9 +11,13 @@ import postMenuItem from "../http";
 import PageHeader from "./PageHeader";
 
 function AddForm() {
+
+  let idIsFilled = false;
+
   const [values, setValues] = React.useState({
-    price: 0.0,
+  
     id: 0,
+    price: 0,
     desc: "",
     category: "",
     name: "",
@@ -27,6 +31,7 @@ function AddForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
+    console.log(values.id);
     postMenuItem(values);
     setValues({
       ...values,
@@ -51,7 +56,7 @@ function AddForm() {
       >
         <Paper
           elevation={3}
-          sx={{ marginY: 3, height: 500, width: 600, alignItems: "center" }}
+          sx={{ marginY: 3, height: 450, width: 600, alignItems: "center" }}
         >
           <form onSubmit={handleSubmit}>
             <Grid
@@ -66,7 +71,12 @@ function AddForm() {
             >
               <TextField
                 required
-                type="number"
+                inputProps={{
+                  title: "Must be a value greater than 0.",
+                  pattern: "^(?:[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])$"
+                }}
+                error={values.id <= 0 || values.id === undefined}
+                type="text"
                 id="id-field"
                 label="ID"
                 variant="outlined"
@@ -76,6 +86,7 @@ function AddForm() {
               />
               <TextField
                 required
+                error={values.name === ""}
                 id="name-field"
                 label="Name"
                 type="text"
@@ -101,7 +112,12 @@ function AddForm() {
                 </InputLabel>
                 <OutlinedInput
                   required
-                  type="number"
+                  inputProps={{
+                    title: "Must be a value greater than 0.",
+                    pattern: "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$"
+                  }}
+                  error={values.price <= 0 || values.price === undefined}
+                  type="text"
                   id="price-field"
                   value={values.price}
                   onChange={handleChange("price")}
@@ -116,6 +132,7 @@ function AddForm() {
                   <InputLabel id="select-category">Category</InputLabel>
                   <Select
                     required
+                    error={values.category === ""}
                     labelId="select-category"
                     id="select-category"
                     value={values.category}
@@ -136,8 +153,9 @@ function AddForm() {
               <TextField
                 fullWidth
                 required
+                error={values.desc === ""}
                 multiline
-                maxRows={5}
+                maxRows={2}
                 id="description-field"
                 label="Description"
                 variant="outlined"
@@ -149,6 +167,7 @@ function AddForm() {
               <TextField
                 fullWidth
                 required
+                error={values.img === ""}
                 id="image-field"
                 label="Image Path"
                 variant="outlined"

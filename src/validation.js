@@ -1,2 +1,1 @@
-const jquery = require('jquery');
 
