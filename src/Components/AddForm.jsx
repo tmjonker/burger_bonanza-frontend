@@ -62,7 +62,7 @@ function AddForm() {
       >
         <Paper
           elevation={3}
-          sx={{ marginY: 10, height: 515, width: 600, alignItems: "center", opacity: 0.9}}
+          sx={{ marginTop: 10, marginBottom: 16, height: 515, width: 600, alignItems: "center", opacity: 0.9}}
         >
           <PageHeader message="Add Menu Item" />
           <form onSubmit={handleSubmit}>

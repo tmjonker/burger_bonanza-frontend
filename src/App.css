@@ -8,13 +8,25 @@
 body {
   background-image: url("../public/images/cheeseburger.jpg");
   background-size: auto;
-  background-position: 60% 75%;
+  background-position: 60% 80%;
   background-repeat: no-repeat;
 }
 
 html {
   position: relative;
   min-height: 100%;
+}
+
+.logo {
+  size: auto;
+  border-radius: 50%;
+  opacity: 0.9;
+  margin-top: 100px;
+  margin-bottom: 160px;
+}
+
+.logo-div {
+  text-align: center;
 }
 
 h2 {

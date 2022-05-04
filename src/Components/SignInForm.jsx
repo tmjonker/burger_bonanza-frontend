@@ -47,7 +47,7 @@ function SignInForm() {
       >
         <Paper
           elevation={3}
-          sx={{ marginY: 10, height: 420, width: 400, alignItems: "center", opacity: 0.9 }}
+          sx={{ marginTop: 10, marginBottom: 16, height: 420, width: 400, alignItems: "center", opacity: 0.9 }}
         >
           <PageHeader message="Sign-in" />
           <form onSubmit={handleSubmit}>
