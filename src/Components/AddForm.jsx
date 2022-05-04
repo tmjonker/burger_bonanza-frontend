@@ -7,15 +7,22 @@ import { FormControl, InputLabel, InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import postMenuItem from "../http";
-import PageHeader from "./PageHeader";
+import { postMenuItem } from "../http";
+import PageHeader from "./PageHeader.jsx";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#C41E3A",
+    },
+  },
+});
 
 function AddForm() {
-
   let idIsFilled = false;
 
   const [values, setValues] = React.useState({
-  
     id: 0,
     price: 0,
     desc: "",
@@ -46,7 +53,6 @@ function AddForm() {
 
   return (
     <div>
-      <PageHeader message="Add Menu Item" />
       <Grid
         container
         spacing={0}
@@ -56,8 +62,9 @@ function AddForm() {
       >
         <Paper
           elevation={3}
-          sx={{ marginY: 3, height: 450, width: 600, alignItems: "center" }}
+          sx={{ marginY: 10, height: 515, width: 600, alignItems: "center", opacity: 0.9}}
         >
+          <PageHeader message="Add Menu Item" />
           <form onSubmit={handleSubmit}>
             <Grid
               container
@@ -73,7 +80,7 @@ function AddForm() {
                 required
                 inputProps={{
                   title: "Must be a value greater than 0.",
-                  pattern: "^(?:[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])$"
+                  pattern: "^(?:[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])$",
                 }}
                 error={values.id <= 0 || values.id === undefined}
                 type="text"
@@ -113,8 +120,8 @@ function AddForm() {
                 <OutlinedInput
                   required
                   inputProps={{
-                    title: "Must be a value greater than 0.",
-                    pattern: "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$"
+                    title: "Must be in ##.## format.",
+                    pattern: "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*.[0-9]{2}$",
                   }}
                   error={values.price <= 0 || values.price === undefined}
                   type="text"
@@ -176,15 +183,17 @@ function AddForm() {
                 onChange={handleChange("img")}
                 sx={{ marginX: 1, marginTop: 3 }}
               />
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{
-                  marginTop: 3,
-                }}
-              >
-                Submit
-              </Button>
+              <ThemeProvider theme={theme}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{
+                    marginTop: 3,
+                  }}
+                >
+                  Submit
+                </Button>
+              </ThemeProvider>
             </Grid>
           </form>
         </Paper>

@@ -9,6 +9,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#C41E3A",
+    },
+  },
+});
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,68 +62,72 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavBar = () => {
-  const pages = ["Menu", "Order Now", "Contact Us"];
+  const pages = ["Sign-in", "Menu", "Order Now", "Contact Us"];
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            Burger Bonanza!
-          </Typography>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Link
-                key={page}
-                to={
-                  page === "Menu"
-                    ? "add"
-                    : page === "Order Now"
-                    ? "order"
-                    : page === "Contact Us"
-                    ? "contact"
-                    : null
-                }
-                style={{ textDecoration: "none" }}
-              >
-                <Button
+    <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            >
+              Burger Bonanza!
+            </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            >
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Link
                   key={page}
-                  onClick={console.log("click")}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  to={
+                    page === "Menu"
+                      ? "add"
+                      : page === "Order Now"
+                      ? "order"
+                      : page === "Contact Us"
+                      ? "contact"
+                      : page === "Sign-in"
+                      ? "sign-in"
+                      : null
+                  }
+                  style={{ textDecoration: "none" }}
                 >
-                  {page}
-                </Button>
-              </Link>
-            ))}
-          </Box>
+                  <Button
+                    key={page}
+                    onClick={console.log("click")}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page}
+                  </Button>
+                </Link>
+              ))}
+            </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            <Box sx={{ flexGrow: 0 }}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </ThemeProvider>
   );
 };
 export default NavBar;

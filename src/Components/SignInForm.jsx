@@ -3,8 +3,17 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import postMenuItem from "../http";
-import PageHeader from "./PageHeader";
+import { signIn } from "../http.js";
+import PageHeader from "./PageHeader.jsx";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#C41E3A",
+    },
+  },
+});
 
 function SignInForm() {
   const [values, setValues] = React.useState({
@@ -16,9 +25,19 @@ function SignInForm() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    const token = signIn(values);
+    console.log(token);
+    setValues({
+      ...values,
+      username: "",
+      password: "",
+    });
+  }
+
   return (
     <div>
-      <PageHeader message="Sign-in" />
       <Grid
         container
         spacing={0}
@@ -28,63 +47,58 @@ function SignInForm() {
       >
         <Paper
           elevation={3}
-          sx={{ marginY: 3, height: 300, width: 400, alignItems: "center" }}
+          sx={{ marginY: 10, height: 420, width: 400, alignItems: "center", opacity: 0.9 }}
         >
-          <Grid
-            container
-            spacing={0}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              marginTop: 3,
-            }}
-          >
-            <TextField
-              id="username-field"
-              label="Username"
-              variant="outlined"
-              type="text"
-              autoComplete="username"
-              value={values.username}
-              onChange={handleChange("username")}
-              sx={{ marginX: 1, marginTop: 3 }}
-            />
-            <TextField
-              id="password-field"
-              label="Password"
-              variant="outlined"
-              type="password"
-              autoComplete="current-password"
-              value={values.password}
-              onChange={handleChange("password")}
-              sx={{ marginX: 1, my: 3 }}
-            />
-          </Grid>
-          <Grid
-            container
-            spacing={0}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              marginTop: 3,
-            }}
-          >
-            <Button
-              variant="contained"
-              onClick={() => {
-                postMenuItem(values);
-                setValues({
-                  ...values,
-                  id: 0,
-                  name: "",
-                });
+          <PageHeader message="Sign-in" />
+          <form onSubmit={handleSubmit}>
+            <Grid
+              container
+              spacing={0}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                marginTop: 3,
               }}
             >
-              Submit
-            </Button>
-          </Grid>
+              <TextField
+                id="username-field"
+                label="Username"
+                variant="outlined"
+                type="text"
+                autoComplete="username"
+                value={values.username}
+                onChange={handleChange("username")}
+                sx={{ marginX: 1, marginTop: 3 }}
+              />
+              <TextField
+                id="password-field"
+                label="Password"
+                variant="outlined"
+                type="password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange("password")}
+                sx={{ marginX: 1, my: 3 }}
+              />
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              sx={{
+                marginTop: 3,
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <Button variant="contained" type="submit">
+                  Submit
+                </Button>
+              </ThemeProvider>
+            </Grid>
+          </form>
         </Paper>
       </Grid>
     </div>
