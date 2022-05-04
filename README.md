@@ -1,3 +1,5 @@
+![screenshot of program](https://github.com/tmjonker/burger_bonanza-frontend/blob/master/images/bb1.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
