@@ -29,6 +29,7 @@ function SignInForm() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  // function that processes submit, calls method that sends POST request, and resets values to blank.
   function handleSubmit(event) {
 
     event.preventDefault();
@@ -49,6 +50,7 @@ function SignInForm() {
         password: values.password
     }
   
+    // POST request to authenticate login information.  Token is returned by server and stored in localStorage.
     $.ajax({
         type: 'post',
         url: 'http://localhost:8080/authenticate',

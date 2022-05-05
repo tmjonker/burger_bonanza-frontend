@@ -7,10 +7,10 @@ import { FormControl, InputLabel, InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { postMenuItem } from "../http";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
+import $ from 'jquery';
 
 const theme = createTheme({
   palette: {
@@ -23,7 +23,7 @@ const theme = createTheme({
 function AddForm() {
   const location = useLocation();
 
-  const token = location.state;
+  const token = location.state; // Token that is passed over from sign-in.
 
   const [values, setValues] = React.useState({
     id: 0,
@@ -54,6 +54,30 @@ function AddForm() {
     });
   }
 
+  function postMenuItem(values) {
+    const menuItem = {
+      id: values.id,
+      category: values.category,
+      name: values.name,
+      description: values.desc,
+      price: values.price,
+      imgPath: values.img,
+    };
+
+    $.ajax({
+      type: "post",
+      headers: {"Authorization": token},
+      url: "http://localhost:8080/api/menu/" + values.id,
+      data: JSON.stringify(menuItem),
+      contentType: "application/json; charset=utf-8",
+      traditional: true,
+      success: function (menuItem) {
+        alert("Menu Item successfully added...");
+      },
+    });
+  }
+
+  // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
   if (token === null) {
     return (
       <div>
