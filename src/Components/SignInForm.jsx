@@ -3,9 +3,10 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { signIn } from "../http.js";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import $ from 'jquery';
 
 const theme = createTheme({
   palette: {
@@ -16,6 +17,9 @@ const theme = createTheme({
 });
 
 function SignInForm() {
+
+  const navigate = useNavigate();
+
   const [values, setValues] = React.useState({
     username: "",
     password: "",
@@ -26,14 +30,44 @@ function SignInForm() {
   };
 
   function handleSubmit(event) {
+
     event.preventDefault();
-    const token = signIn(values);
-    console.log(token);
+
+    signIn(values);
+
     setValues({
       ...values,
       username: "",
       password: "",
     });
+  }
+
+  function signIn(values) {
+
+    const credentials = {
+        username: values.username,
+        password: values.password
+    }
+  
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:8080/authenticate',
+        data: JSON.stringify(credentials),
+        contentType: "application/json; charset=utf-8",
+        traditional: true,
+        
+        success: function(data) {
+            let tokenString = JSON.stringify(data);
+            let token = JSON.stringify({token: "Bearer " + JSON.parse(tokenString).token, username: credentials.username, password: credentials.password});
+            localStorage.setItem(credentials.username, token);
+
+            let user = JSON.parse(token);
+
+            console.log(user.token);
+      
+            navigate("/add", {state: user.token});
+        }
+    })
   }
 
   return (

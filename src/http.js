@@ -1,4 +1,4 @@
-import { AlternateEmail } from '@mui/icons-material';
+
 import $ from 'jquery';
 
 function postMenuItem(values) {
@@ -40,9 +40,9 @@ function signIn(values) {
         
         success: function(data) {
             let tokenString = JSON.stringify(data);
-            let token = "Bearer " + JSON.parse(tokenString).token;
-            window.localStorage.setItem(credentials.username, token);
-            alert(window.localStorage.getItem(credentials.username));
+            let token = JSON.stringify({token: "Bearer " + JSON.parse(tokenString).token, username: credentials.username, password: credentials.password});
+            localStorage.setItem(credentials.username, token);
+            alert("Success");
         }
     })
 }
