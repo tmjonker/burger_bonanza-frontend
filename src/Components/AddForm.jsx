@@ -10,7 +10,7 @@ import Select from "@mui/material/Select";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
-import $ from 'jquery';
+import $ from "jquery";
 
 const theme = createTheme({
   palette: {
@@ -20,10 +20,16 @@ const theme = createTheme({
   },
 });
 
-function AddForm() {
+function AddForm(props) {
   const location = useLocation();
-
-  const token = location.state; // Token that is passed over from sign-in.
+  let token;
+  if (location.state !== null) {
+    console.log(location.state);
+    token = location.state; // Token that is passed over from sign-in.
+  } else {
+    token = props.token;
+    console.log(props.token);
+  }
 
   const [values, setValues] = React.useState({
     id: 0,
@@ -41,7 +47,6 @@ function AddForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log(values.id);
     postMenuItem(values);
     setValues({
       ...values,
@@ -66,7 +71,7 @@ function AddForm() {
 
     $.ajax({
       type: "post",
-      headers: {"Authorization": token},
+      headers: { Authorization: token },
       url: "http://localhost:8080/api/menu/" + values.id,
       data: JSON.stringify(menuItem),
       contentType: "application/json; charset=utf-8",
