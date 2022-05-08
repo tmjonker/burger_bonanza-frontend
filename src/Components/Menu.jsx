@@ -7,6 +7,7 @@ import PageHeader from "./PageHeader.jsx";
 function Menu() {
   let menu;
 
+  // GET request to retrieve menu items from database.
   function getMenu() {
     $.ajax({
       type: "get",
@@ -23,6 +24,7 @@ function Menu() {
     });
   }
 
+  // Creates a new MenuItem component to be displayed.
   function createMenuItem(menu) {
     return (
       <MenuItem
@@ -36,13 +38,13 @@ function Menu() {
     );
   }
 
-  getMenu();
+  getMenu(); // GET menu items from database before returning view.
 
   return (
     <Container maxWidth="xl">
       <Paper elevation={3}
       sx={{
-          marginTop: 4,
+          marginTop: 2,
           opacity: 0.9
       }}>
         <Grid container spacing={1}>

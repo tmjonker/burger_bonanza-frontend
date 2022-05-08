@@ -8,7 +8,8 @@ function MenuItem(props) {
       sx={{
           textAlign: "center",
           margin: 2,
-          padding: 1
+          padding: 1,
+          height: 300
       }}>
           <img className="menu-item" src={"./" + props.img} alt="appetizer 1" />
           <Typography variant="h5" gutterBottom component="div">
