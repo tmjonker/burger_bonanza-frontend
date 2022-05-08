@@ -10,6 +10,7 @@ body {
   background-size: auto;
   background-position: 60% 80%;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 html {
@@ -37,8 +38,13 @@ h4 {
   text-align: center;
 }
 
-.cover-container {
-  
+.menu-item {
+  width: 60%;
+  margin: 10px;
+}
+
+.menu-header {
+  color: white;
 }
 
 footer {

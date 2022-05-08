@@ -24,13 +24,12 @@ function AddForm(props) {
   const location = useLocation();
   let token;
   if (location.state !== null) {
-    console.log(location.state);
-    token = location.state; // Token that is passed over from sign-in.
+    token = location.state; // Token that is passed over from signing in.
   } else {
-    token = props.token;
-    console.log(props.token);
+    token = props.token; // Token that is passed when user is already logged in and access the sign in page.
   }
 
+  // initialize values
   const [values, setValues] = React.useState({
     id: 0,
     price: 0,
@@ -96,20 +95,22 @@ function AddForm(props) {
             display: { xs: "flex" },
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              marginTop: 10,
-              marginBottom: 16,
-              height: 200,
-              width: 650,
-              alignItems: "center",
-              opacity: 0.9,
-            }}
-          >
-            <PageHeader message="Authorization Required" />
-            <p>Must be authorized!</p>
-          </Paper>
+          <Grid item xs={12}>
+            <Paper
+              elevation={3}
+              sx={{
+                marginTop: 10,
+                marginBottom: 16,
+                height: 200,
+                width: 650,
+                alignItems: "center",
+                opacity: 0.9,
+              }}
+            >
+              <PageHeader message="Authorization Required" />
+              <p>Must be authorized!</p>
+            </Paper>
+          </Grid>
         </Grid>
       </div>
     );
@@ -126,151 +127,156 @@ function AddForm(props) {
             display: { xs: "flex" },
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              marginTop: 10,
-              marginBottom: 16,
-              height: 515,
-              width: 600,
-              alignItems: "center",
-              opacity: 0.9,
-            }}
-          >
-            <PageHeader message="Add Menu Item" />
-            <form onSubmit={handleSubmit}>
-              <Grid
-                container
-                spacing={0}
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-                sx={{
-                  marginTop: 3,
-                }}
-              >
-                <TextField
-                  required
-                  inputProps={{
-                    title: "Must be a value greater than 0.",
-                    pattern:
-                      "^(?:[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])$",
+          <Grid item xs={12}>
+            <Paper
+              elevation={3}
+              sx={{
+                marginTop: 10,
+                marginBottom: 16,
+                height: 530,
+                width: 600,
+                alignItems: "center",
+                opacity: 0.9,
+              }}
+            >
+              <PageHeader message="Add Menu Item" />
+              <form onSubmit={handleSubmit}>
+                <Grid
+                  container
+                  spacing={0}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{
+                    marginTop: 3,
                   }}
-                  error={values.id <= 0 || values.id === undefined}
-                  type="text"
-                  id="id-field"
-                  label="ID"
-                  variant="outlined"
-                  value={values.id}
-                  onChange={handleChange("id")}
-                  sx={{ marginX: 1 }}
-                />
-                <TextField
-                  required
-                  error={values.name === ""}
-                  id="name-field"
-                  label="Name"
-                  type="text"
-                  variant="outlined"
-                  value={values.name}
-                  onChange={handleChange("name")}
-                  sx={{ marginX: 1 }}
-                />
-              </Grid>
-              <Grid
-                container
-                spacing={0}
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-                sx={{
-                  marginTop: 3,
-                }}
-              >
-                <FormControl fullWidth sx={{ maxWidth: 230, m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-amount">
-                    Price
-                  </InputLabel>
-                  <OutlinedInput
+                >
+                  <TextField
                     required
                     inputProps={{
-                      title: "Must be in ##.## format.",
-                      pattern: "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*.[0-9]{2}$",
+                      title: "Must be a value greater than 0.",
+                      pattern:
+                        "^(?:[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[1-9])$", // pattern must match 1-9999.
                     }}
-                    error={values.price <= 0 || values.price === undefined}
+                    error={values.id <= 0 || values.id === undefined}
                     type="text"
-                    id="price-field"
-                    value={values.price}
-                    onChange={handleChange("price")}
-                    startAdornment={
-                      <InputAdornment position="start">$</InputAdornment>
-                    }
-                    label="Price"
+                    id="id-field"
+                    label="ID"
+                    variant="outlined"
+                    value={values.id}
+                    onChange={handleChange("id")}
+                    sx={{ marginX: 1 }}
                   />
-                </FormControl>
-                <Box sx={{ minWidth: 230, marginX: 1 }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="select-category">Category</InputLabel>
-                    <Select
+                  <TextField
+                    required
+                    error={values.name === ""}
+                    id="name-field"
+                    label="Name"
+                    type="text"
+                    variant="outlined"
+                    value={values.name}
+                    onChange={handleChange("name")}
+                    sx={{ marginX: 1 }}
+                  />
+                </Grid>
+                <Grid
+                  container
+                  spacing={0}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{
+                    marginTop: 3,
+                  }}
+                >
+                  <FormControl fullWidth sx={{ maxWidth: 230, m: 1 }}>
+                    <InputLabel htmlFor="outlined-adornment-amount">
+                      Price
+                    </InputLabel>
+                    <OutlinedInput
                       required
-                      error={values.category === ""}
-                      labelId="select-category"
-                      id="select-category"
-                      value={values.category}
-                      label="Category"
-                      onChange={handleChange("category")}
-                    >
-                      <MenuItem value={"Appetizer"}>Appetizer</MenuItem>
-                      <MenuItem value={"Salad"}>Salad</MenuItem>
-                      <MenuItem value={"Burger"}>Burger</MenuItem>
-                      <MenuItem value={"Special"}>Special</MenuItem>
-                      <MenuItem value={"Dessert"}>Dessert</MenuItem>
-                      <MenuItem value={"Entree"}>Entree</MenuItem>
-                      <MenuItem value={"Side"}>Side</MenuItem>
-                      <MenuItem value={"Drink"}>Drink</MenuItem>
-                    </Select>
+                      inputProps={{
+                        title: "Must be in ##.## format.",
+                        pattern: "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*.[0-9]{2}$", // must be ##.## format to be accepted.
+                      }}
+                      error={values.price <= 0 || values.price === undefined}
+                      type="text"
+                      id="price-field"
+                      value={values.price}
+                      onChange={handleChange("price")}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                      label="Price"
+                    />
                   </FormControl>
-                </Box>
-                <TextField
-                  fullWidth
-                  required
-                  error={values.desc === ""}
-                  multiline
-                  maxRows={2}
-                  id="description-field"
-                  label="Description"
-                  variant="outlined"
-                  type="text"
-                  value={values.desc}
-                  onChange={handleChange("desc")}
-                  sx={{ marginX: 1, marginTop: 3 }}
-                />
-                <TextField
-                  fullWidth
-                  required
-                  error={values.img === ""}
-                  id="image-field"
-                  label="Image Path"
-                  variant="outlined"
-                  type="text"
-                  value={values.img}
-                  onChange={handleChange("img")}
-                  sx={{ marginX: 1, marginTop: 3 }}
-                />
-                <ThemeProvider theme={theme}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{
-                      marginTop: 3,
-                    }}
-                  >
-                    Submit
-                  </Button>
-                </ThemeProvider>
-              </Grid>
-            </form>
-          </Paper>
+                  <Box sx={{ minWidth: 230, marginX: 1 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="select-category">Category</InputLabel>
+                      <Select
+                        required
+                        inputProps={{
+                          MenuProps: {disableScrollLock: true}
+                        }}
+                        error={values.category === ""}
+                        labelId="select-category"
+                        id="select-category"
+                        value={values.category}
+                        label="Category"
+                        onChange={handleChange("category")}
+                      >
+                        <MenuItem value={"Appetizer"}>Appetizer</MenuItem>
+                        <MenuItem value={"Salad"}>Salad</MenuItem>
+                        <MenuItem value={"Burger"}>Burger</MenuItem>
+                        <MenuItem value={"Special"}>Special</MenuItem>
+                        <MenuItem value={"Dessert"}>Dessert</MenuItem>
+                        <MenuItem value={"Entree"}>Entree</MenuItem>
+                        <MenuItem value={"Side"}>Side</MenuItem>
+                        <MenuItem value={"Drink"}>Drink</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <TextField
+                    fullWidth
+                    required
+                    error={values.desc === ""}
+                    multiline
+                    maxRows={2}
+                    id="description-field"
+                    label="Description"
+                    variant="outlined"
+                    type="text"
+                    value={values.desc}
+                    onChange={handleChange("desc")}
+                    sx={{ marginX: 1, marginTop: 3 }}
+                  />
+                  <TextField
+                    fullWidth
+                    required
+                    error={values.img === ""}
+                    id="image-field"
+                    label="Image Path"
+                    variant="outlined"
+                    type="text"
+                    value={values.img}
+                    onChange={handleChange("img")}
+                    sx={{ marginX: 1, marginTop: 3 }}
+                  />
+                  <ThemeProvider theme={theme}>
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      sx={{
+                        marginTop: 3,
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </ThemeProvider>
+                </Grid>
+              </form>
+            </Paper>
+          </Grid>
         </Grid>
       </div>
     );
