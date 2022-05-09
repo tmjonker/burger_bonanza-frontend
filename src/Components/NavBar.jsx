@@ -58,13 +58,22 @@ const NavBar = () => {
     }
   }
 
-  function handleMenuItemClick() {
+  function handleAddMenuClick() {
     setAnchorEl(null);
 
     const userString = localStorage.getItem("user");
     const user = JSON.parse(userString);
 
-    navigate("/add", {state: user.token});
+    navigate("/add", { state: user.token });
+  }
+
+  function handleChangePwClick() {
+    setAnchorEl(null);
+
+    const userString = localStorage.getItem("user");
+    const user = JSON.parse(userString);
+
+    navigate("/change", { state: user.token });
   }
 
   return (
@@ -210,9 +219,14 @@ const NavBar = () => {
                   onClose={handleClose}
                 >
                   {user !== null ? (
-                    <MenuItem onClick={handleMenuItemClick}>
-                      {user !== null ? "Add Menu Item" : null}
-                    </MenuItem>
+                    <div>
+                      <MenuItem onClick={handleAddMenuClick}>
+                        {user !== null ? "Add Menu Item" : null}
+                      </MenuItem>
+                      <MenuItem onClick={handleChangePwClick}>
+                        {user !== null ? "Change Password" : null}
+                      </MenuItem>
+                    </div>
                   ) : null}
 
                   <MenuItem onClick={handleSignInOutClick}>
