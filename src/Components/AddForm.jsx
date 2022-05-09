@@ -108,7 +108,7 @@ function AddForm(props) {
               }}
             >
               <PageHeader message="Authorization Required" />
-              <p>Must be authorized!</p>
+              <p className="unauthorized">Must be authorized!</p>
             </Paper>
           </Grid>
         </Grid>

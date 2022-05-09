@@ -69,6 +69,9 @@ function SignInForm() {
 
         navigate("/add", { state: user.token });
       },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("Password Incorrect");
+      }
     });
   }
 

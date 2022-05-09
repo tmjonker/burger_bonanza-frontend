@@ -17,7 +17,6 @@ const theme = createTheme({
 });
 
 function ChangePassword(props) {
-
   const navigate = useNavigate();
   const location = useLocation();
   const token = location.state;
@@ -68,90 +67,125 @@ function ChangePassword(props) {
     });
   }
 
-  return (
-    <div>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Paper
-          elevation={3}
+  // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
+  if (token === null) {
+    return (
+      <div>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
           sx={{
-            marginTop: 10,
-            marginBottom: 16,
-            height: 540,
-            width: 400,
-            alignItems: "center",
-            opacity: 0.9,
+            display: { xs: "flex" },
           }}
         >
-          <PageHeader message="Change Password" />
-          <form onSubmit={handleSubmit}>
-            <Grid
-              container
-              spacing={0}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
+          <Grid item xs={12}>
+            <Paper
+              elevation={3}
               sx={{
-                marginTop: 3,
+                marginTop: 10,
+                marginBottom: 16,
+                height: 200,
+                width: 650,
+                alignItems: "center",
+                opacity: 0.9,
               }}
             >
-              <TextField
-                id="username-field"
-                label="Username"
-                variant="outlined"
-                type="text"
-                autoComplete="username"
-                value={values.username}
-                onChange={handleChange("username")}
-                sx={{ marginX: 1, marginTop: 3 }}
-              />
-              <TextField
-                id="old-password-field"
-                label="Old Password"
-                variant="outlined"
-                type="password"
-                autoComplete="current-password"
-                value={values.oldPassword}
-                onChange={handleChange("oldPassword")}
-                sx={{ marginX: 1, marginTop: 3 }}
-              />
-              <TextField
-                id="new-password-field"
-                label="New Password"
-                variant="outlined"
-                type="password"
-                autoComplete="new-password"
-                value={values.newPassword}
-                onChange={handleChange("newPassword")}
-                sx={{ marginX: 1, my: 3 }}
-              />
-            </Grid>
-            <Grid
-              container
-              spacing={0}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              sx={{
-                marginTop: 3,
-              }}
-            >
-              <ThemeProvider theme={theme}>
-                <Button variant="contained" type="submit">
-                  Submit
-                </Button>
-              </ThemeProvider>
-            </Grid>
-          </form>
-        </Paper>
-      </Grid>
-    </div>
-  );
+              <PageHeader message="Authorization Required" />
+              <p className="unauthorized">Must be authorized!</p>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              marginTop: 10,
+              marginBottom: 16,
+              height: 540,
+              width: 400,
+              alignItems: "center",
+              opacity: 0.9,
+            }}
+          >
+            <PageHeader message="Change Password" />
+            <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                spacing={0}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  marginTop: 3,
+                }}
+              >
+                <TextField
+                  id="username-field"
+                  label="Username"
+                  variant="outlined"
+                  type="text"
+                  autoComplete="username"
+                  value={values.username}
+                  onChange={handleChange("username")}
+                  sx={{ marginX: 1, marginTop: 3 }}
+                />
+                <TextField
+                  id="old-password-field"
+                  label="Old Password"
+                  variant="outlined"
+                  type="password"
+                  autoComplete="current-password"
+                  value={values.oldPassword}
+                  onChange={handleChange("oldPassword")}
+                  sx={{ marginX: 1, marginTop: 3 }}
+                />
+                <TextField
+                  id="new-password-field"
+                  label="New Password"
+                  variant="outlined"
+                  type="password"
+                  autoComplete="new-password"
+                  value={values.newPassword}
+                  onChange={handleChange("newPassword")}
+                  sx={{ marginX: 1, my: 3 }}
+                />
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  marginTop: 3,
+                }}
+              >
+                <ThemeProvider theme={theme}>
+                  <Button variant="contained" type="submit">
+                    Submit
+                  </Button>
+                </ThemeProvider>
+              </Grid>
+            </form>
+          </Paper>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 export default ChangePassword;
