@@ -131,6 +131,7 @@ function AddForm(props) {
             <Paper
               elevation={3}
               sx={{
+                paddingX: 6,
                 marginTop: 10,
                 marginBottom: 16,
                 height: 530,
