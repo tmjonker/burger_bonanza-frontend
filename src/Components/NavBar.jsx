@@ -27,7 +27,7 @@ const theme = createTheme({
 function NavBar() {
 
   useEffect(() => {
-
+    
   });
 
   const navigate = useNavigate();
