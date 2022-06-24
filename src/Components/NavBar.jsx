@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -10,8 +10,11 @@ import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
+import { ShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Badge } from "@mui/material";
+import $ from "jquery";
 
 const theme = createTheme({
   palette: {
@@ -21,12 +24,17 @@ const theme = createTheme({
   },
 });
 
-const NavBar = () => {
+function NavBar() {
+
+  useEffect(() => {
+
+  });
+
   const navigate = useNavigate();
 
   const user = localStorage.getItem("user");
 
-  const pages = ["Menu", "Contact Us"];
+  const pages = ["Menu", "Contact Us", "Order"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -138,6 +146,8 @@ const NavBar = () => {
                             ? "menu"
                             : page === "Contact Us"
                             ? "contact"
+                            : page === "Order"
+                            ? "order"
                             : null
                         }
                         style={{ color: "black", textDecoration: "none" }}
@@ -178,6 +188,8 @@ const NavBar = () => {
                         ? "menu"
                         : page === "Contact Us"
                         ? "contact"
+                        : page === "Order"
+                        ? "order"
                         : null
                     }
                     style={{ textDecoration: "none" }}
@@ -192,6 +204,12 @@ const NavBar = () => {
                 ))}
               </Box>
               <div>
+                <IconButton>
+                  <Badge badgeContent={0} color="primary">
+                    <ShoppingCart style={{color: "white"}} />
+                  </Badge>
+                </IconButton>
+
                 <IconButton
                   size="large"
                   aria-label="account of current user"
