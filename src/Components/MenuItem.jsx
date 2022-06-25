@@ -10,9 +10,9 @@ function MenuItem(props) {
           textAlign: "center",
           margin: 2,
           padding: 1,
-          height: 300
+          height: 401
       }}>
-          <img className="menu-item" src={"./" + props.img} alt="appetizer 1" />
+          <img className="menu-item" src={"./" + props.item.img} alt="appetizer 1" />
           <Typography variant="h5" gutterBottom component="div">
               {props.item.name}
           </Typography>

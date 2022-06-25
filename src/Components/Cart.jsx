@@ -12,21 +12,25 @@ function Cart(props) {
         sx={{
           marginTop: 2,
           opacity: 0.9,
-          marginBottom: 10
+          marginBottom: 10,
         }}
       >
-        <Grid
-          container
-          spacing={0}
-          align="center"
-          direction="column"
-        >
+        <Grid container spacing={0} align="center" direction="column">
           <Grid item xs={12} l={12}>
             <PageHeader message="Cart" />
           </Grid>
-          {props.data.map((item, index) => (
-            <React.Fragment key={index}>
-                <Grid container direction="row" justifyContent="center" sx={{marginBottom: 3}}>
+          {props.data.length > 0 ? (
+            props.data.map((item, index) => (
+              <React.Fragment key={index}>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  sx={{ marginBottom: 3 }}
+                >
+                  <Grid item l={3} sx={{ border: 1, padding: 1, width: 150 }}>
+                    <img className="menu-item" src={item.imgPath} />
+                  </Grid>
                   <Grid item l={3} sx={{ border: 1, padding: 1, width: 150 }}>
                     <Typography variant="h5" component="div">
                       {item.name}
@@ -43,11 +47,30 @@ function Cart(props) {
                     </Typography>
                   </Grid>
                   <Grid item l={3} sx={{ padding: 1 }}>
-                    <Button><RemoveIcon style={{ color:"#C41E3A" }} onClick={() => props.remove(index)} /></Button>
+                    <Button
+                      style={{ color: "#C41E3A" }}
+                      onClick={() => props.remove(index)}
+                    >
+                      Remove
+                    </Button>
                   </Grid>
                 </Grid>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            ))
+          ) : (
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              sx={{ marginBottom: 3 }}
+            >
+              <Grid item l={3} sx={{ padding: 1 }}>
+                <Typography variant="h5" component="div">
+                  Your cart is empty.
+                </Typography>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </Paper>
     </Container>

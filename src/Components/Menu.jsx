@@ -19,6 +19,8 @@ function Menu(props) {
       success: function (data) {
         data = JSON.stringify(data);
         menu = JSON.parse(data);
+
+        console.log(menu);
       },
     });
   }
@@ -30,7 +32,7 @@ function Menu(props) {
       name: menu.name,
       price: menu.price,
       description: menu.description,
-      img: menu.imagePath,
+      img: menu.imgPath,
       category: menu.category,
     };
 

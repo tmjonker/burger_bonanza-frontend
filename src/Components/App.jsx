@@ -23,12 +23,17 @@ function App() {
     menuItems : [],
   });
 
-  useEffect(() => {
-    if (localStorage.getItem("cart") !== null) {
+  // useEffect(() => {
+  //   if (localStorage.getItem("cart") !== null) {
 
-      let cartId = JSON.parse(localStorage.getItem("cart")).id;
-    }
-  });
+  //     console.log(localStorage.getItem("quantity"));
+
+  //     setQuantity(localStorage.getItem("quantity"));
+  //     setCart(localStorage.getItem("cart"));
+
+  //     console.log(cart.menuItems);
+  //   }
+  // });
 
   function addToCart(item) {
 
@@ -37,6 +42,9 @@ function App() {
     setCart(prevState => ({
       menuItems: [...prevState.menuItems, item]
     }));
+
+    localStorage.setItem("cart", cart);
+    localStorage.setItem("quantity", quantity);
   }
 
   function removeFromCart(item) {
