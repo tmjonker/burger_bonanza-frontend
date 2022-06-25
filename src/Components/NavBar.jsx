@@ -29,9 +29,9 @@ function NavBar(props) {
 
   const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const pages = ["Menu", "Contact Us", "Order"];
+  const pages = user === null ? ["Menu", "Contact Us", "Order", "Register"] : ["Menu", "Contact Us", "Order"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -56,7 +56,7 @@ function NavBar(props) {
     setAnchorEl(null);
 
     if (user !== null) {
-      localStorage.clear();
+      localStorage.removeItem("user");
       navigate("/");
     } else {
       navigate("/sign-in");
@@ -145,6 +145,8 @@ function NavBar(props) {
                             ? "contact"
                             : page === "Order"
                             ? "order"
+                            : page === "Register"
+                            ? "register"
                             : null
                         }
                         style={{ color: "black", textDecoration: "none" }}
@@ -187,6 +189,8 @@ function NavBar(props) {
                         ? "contact"
                         : page === "Order"
                         ? "order"
+                        : page === "Register"
+                        ? "register"
                         : null
                     }
                     style={{ textDecoration: "none" }}
@@ -201,7 +205,6 @@ function NavBar(props) {
                 ))}
               </Box>
               <div>
-
                 <Link to="cart">
                   <IconButton>
                     <Badge badgeContent={props.quantity} color="primary">
@@ -236,10 +239,22 @@ function NavBar(props) {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  {user !== null ? (
+                  {user !== null && user.username === "admin" ? (
                     <div>
                       <MenuItem onClick={handleAddMenuClick}>
                         {user !== null ? "Add Menu Item" : null}
+                      </MenuItem>
+                      <MenuItem onClick={handleChangePwClick}>
+                        {user !== null ? "Change Password" : null}
+                      </MenuItem>
+                    </div>
+                  ) : user !== null && user.username !== "admin" ? (
+                    <div>
+                      <MenuItem onClick={handleAddMenuClick}>
+                        {user !== null ? "Personal Information" : null}
+                      </MenuItem>
+                      <MenuItem onClick={handleAddMenuClick}>
+                        {user !== null ? "Order History" : null}
                       </MenuItem>
                       <MenuItem onClick={handleChangePwClick}>
                         {user !== null ? "Change Password" : null}

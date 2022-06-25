@@ -29,7 +29,7 @@ function Cart(props) {
                   sx={{ marginBottom: 3 }}
                 >
                   <Grid item l={3} sx={{ border: 1, padding: 1, width: 150 }}>
-                    <img className="menu-item" src={item.imgPath} />
+                    <img className="menu-item" src={"./" + item.img} />
                   </Grid>
                   <Grid item l={3} sx={{ border: 1, padding: 1, width: 150 }}>
                     <Typography variant="h5" component="div">

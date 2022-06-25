@@ -59,10 +59,12 @@ function SignInForm() {
       success: function (data) {
         let tokenString = JSON.stringify(data);
         let token = JSON.stringify({
-          token: "Bearer " + JSON.parse(tokenString).token,
+          token: "Bearer " + JSON.parse(tokenString).token.token,
           username: credentials.username,
           password: credentials.password,
+          roles: JSON.parse(tokenString).user.roles
         });
+        
         localStorage.setItem("user", token);
 
         let user = JSON.parse(token);
