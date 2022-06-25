@@ -20,7 +20,7 @@ function App() {
 
   const [cart, setCart] = useState({
     numItems : quantity,
-    menuItems : []
+    menuItems : [],
   });
 
   useEffect(() => {
@@ -39,6 +39,13 @@ function App() {
     }));
   }
 
+  function removeFromCart(item) {
+
+    setQuantity(quantity - 1);
+
+    setCart({menuItems: cart.menuItems.filter((i, index) => index !== item)});
+  }
+
   return (
     <main>
       <NavBar quantity={quantity} />
@@ -54,7 +61,7 @@ function App() {
           <Route exact path="menu" element={<Menu add={addToCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
-          <Route exact path="cart" element={<Cart data={cart.menuItems} />} />
+          <Route exact path="cart" element={<Cart data={cart.menuItems} remove={removeFromCart} />} />
         </Routes>
       </Container>
       <Footer />
