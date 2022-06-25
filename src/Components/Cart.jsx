@@ -12,6 +12,7 @@ function Cart(props) {
         sx={{
           marginTop: 2,
           opacity: 0.9,
+          marginBottom: 10
         }}
       >
         <Grid
@@ -42,7 +43,7 @@ function Cart(props) {
                     </Typography>
                   </Grid>
                   <Grid item l={3} sx={{ padding: 1 }}>
-                    <RemoveIcon onClick={() => props.remove(index)} />
+                    <Button><RemoveIcon style={{ color:"#C41E3A" }} onClick={() => props.remove(index)} /></Button>
                   </Grid>
                 </Grid>
             </React.Fragment>
