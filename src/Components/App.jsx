@@ -10,34 +10,38 @@ import Menu from "./Menu.jsx";
 import ChangePassword from "./ChangePassword.jsx";
 import Contact from "./Contact.jsx";
 import $ from "jquery";
+import Cart from "./Cart.jsx";
 
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [session, setSession] = useState({
-    cart: {},
+
+  const [quantity, setQuantity] = useState(0);
+
+  const [cart, setCart] = useState({
+    numItems : quantity,
+    menuItems : []
   });
 
   useEffect(() => {
     if (localStorage.getItem("cart") !== null) {
 
       let cartId = JSON.parse(localStorage.getItem("cart")).id;
-
-      $.ajax({
-        type: "get",
-        url: "http://localhost:8080/cart/" + cartId,
-        contentType: "application/json; charset=utf-8",
-        traditional: true,
-        success: function (data) {
-          setSession(data);
-        },
-      });
     }
   });
 
+  function addToCart(item) {
+
+    setQuantity(quantity + 1);
+
+    setCart(prevState => ({
+      menuItems: [...prevState.menuItems, item]
+    }));
+  }
+
   return (
     <main>
-      <NavBar />
+      <NavBar quantity={quantity} />
       <Container
         sx={{
           paddingY: 3,
@@ -47,9 +51,10 @@ function App() {
           <Route exact path="/" element={<MainPage />} />
           <Route exact path="add" element={<AddForm />} />
           <Route exact path="sign-in" element={<SignInForm />} />
-          <Route exact path="menu" element={<Menu />} />
+          <Route exact path="menu" element={<Menu add={addToCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
+          <Route exact path="cart" element={<Cart data={cart.menuItems} />} />
         </Routes>
       </Container>
       <Footer />

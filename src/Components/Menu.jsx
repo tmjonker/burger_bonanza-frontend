@@ -4,7 +4,7 @@ import $ from "jquery";
 import MenuItem from "./MenuItem.jsx";
 import PageHeader from "./PageHeader.jsx";
 
-function Menu() {
+function Menu(props) {
   let menu;
 
   // GET request to retrieve menu items from database.
@@ -19,21 +19,26 @@ function Menu() {
       success: function (data) {
         data = JSON.stringify(data);
         menu = JSON.parse(data);
-        console.log(menu[0]);
       },
     });
   }
 
   // Creates a new MenuItem component to be displayed.
   function createMenuItem(menu) {
+    let menuItem = {
+      key: menu.id,
+      name: menu.name,
+      price: menu.price,
+      description: menu.description,
+      img: menu.imagePath,
+      category: menu.category,
+    };
+
     return (
       <MenuItem
-        key={menu.id}
-        name={menu.name}
-        price={menu.price}
-        description={menu.description}
-        img={menu.imagePath}
-        category={menu.category}
+        key={menuItem.key}
+        item={menuItem}
+        add={props.add}
       />
     );
   }
@@ -42,11 +47,13 @@ function Menu() {
 
   return (
     <Container maxWidth="xl">
-      <Paper elevation={3}
-      sx={{
+      <Paper
+        elevation={3}
+        sx={{
           marginTop: 2,
-          opacity: 0.9
-      }}>
+          opacity: 0.9,
+        }}
+      >
         <Grid container spacing={1}>
           <Grid item xs={12} l={12}>
             <PageHeader message="Appetizers" />
@@ -55,17 +62,21 @@ function Menu() {
         </Grid>
       </Paper>
 
-      <Paper elevation={3}
-      sx={{
+      <Paper
+        elevation={3}
+        sx={{
           marginTop: 4,
           marginBottom: 8,
           opacity: 0.9,
-      }}>
+        }}
+      >
         <Grid container spacing={1}>
           <Grid item xs={12} l={12}>
             <PageHeader message="Salads" />
           </Grid>
-          {menu.map((item) => ((item.id > 19 && item.id < 30) ? createMenuItem(item) : null))}
+          {menu.map((item) =>
+            item.id > 19 && item.id < 30 ? createMenuItem(item) : null
+          )}
         </Grid>
       </Paper>
     </Container>

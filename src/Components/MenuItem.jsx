@@ -1,7 +1,8 @@
-import { Typography, Paper, Grid} from "@mui/material";
+import { Typography, Paper, Grid, Button } from "@mui/material";
 import React from "react";
 
 function MenuItem(props) {
+
   return (
     <Grid item xs={12} lg={4}>
       <Paper elevation={3}
@@ -13,14 +14,15 @@ function MenuItem(props) {
       }}>
           <img className="menu-item" src={"./" + props.img} alt="appetizer 1" />
           <Typography variant="h5" gutterBottom component="div">
-              {props.name}
+              {props.item.name}
           </Typography>
           <Typography variant="h6" gutterBottom component="div">
-              {props.price}
+              {props.item.price}
           </Typography>
           <Typography variant="subtitle2" gutterBottom component="div">
-              {props.description}
+              {props.item.description}
           </Typography>
+          <Button onClick={() => props.add(props.item)} variant="contained" sx={{marginTop: 6}} style={{backgroundColor: "#C41E3A"}}>Add To Cart</Button>
       </Paper>
     </Grid>
   );

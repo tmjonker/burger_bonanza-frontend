@@ -24,11 +24,8 @@ const theme = createTheme({
   },
 });
 
-function NavBar() {
-
-  useEffect(() => {
-    
-  });
+function NavBar(props) {
+  useEffect(() => {});
 
   const navigate = useNavigate();
 
@@ -204,11 +201,14 @@ function NavBar() {
                 ))}
               </Box>
               <div>
-                <IconButton>
-                  <Badge badgeContent={0} color="primary">
-                    <ShoppingCart style={{color: "white"}} />
-                  </Badge>
-                </IconButton>
+
+                <Link to="cart">
+                  <IconButton>
+                    <Badge badgeContent={props.quantity} color="primary">
+                      <ShoppingCart style={{ color: "white" }} />
+                    </Badge>
+                  </IconButton>
+                </Link>
 
                 <IconButton
                   size="large"
@@ -258,5 +258,5 @@ function NavBar() {
       </ThemeProvider>
     </Box>
   );
-};
+}
 export default NavBar;
