@@ -31,7 +31,7 @@ function NavBar(props) {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const pages = user === null ? ["Menu", "Contact Us", "Register"] : ["Menu", "Contact Us", "Order"];
+  const pages = user === null ? ["Menu", "Contact Us", "Register"] : ["Menu", "Contact Us"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 

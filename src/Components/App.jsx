@@ -13,6 +13,7 @@ import $ from "jquery";
 import Cart from "./Cart.jsx";
 import Register from "./Register.jsx";
 import { Routes, Route } from "react-router-dom";
+import Order from "./Order.jsx";
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
             element={<Cart data={cart.menuItems} remove={removeFromCart} />}
           />
           <Route exact path="register" element={<Register />} />
+          <Route exact path="order" element={<Order data={cart.menuItems} />} />
         </Routes>
       </Container>
       <Footer />

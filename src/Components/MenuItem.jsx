@@ -6,9 +6,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#C41E3A",
+    },
+  },
 });
 
 function MenuItem(props) {
@@ -52,14 +61,16 @@ function MenuItem(props) {
         <Typography variant="subtitle2" gutterBottom component="div">
           {props.item.description}
         </Typography>
-        <Button
-          onClick={() => handleClick(props.item)}
-          variant="contained"
-          sx={{ marginTop: 6 }}
-          style={{ backgroundColor: "#C41E3A" }}
-        >
-          Add To Cart
-        </Button>
+        <ThemeProvider theme={theme}>
+          <Button
+            onClick={() => handleClick(props.item)}
+            variant="contained"
+            sx={{ marginTop: 6 }}
+          >
+            Add To Cart
+          </Button>
+        </ThemeProvider>
+
         <Dialog
           open={open}
           TransitionComponent={Transition}
