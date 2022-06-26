@@ -3,8 +3,13 @@ import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
 import PageHeader from "./PageHeader.jsx";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useState } from "react";
 
 function Cart(props) {
+  let total = 0;
+
+  props.data.map((item) => (total += item.price));
+
   return (
     <Container maxWidth="xl">
       <Paper
@@ -71,6 +76,13 @@ function Cart(props) {
               </Grid>
             </Grid>
           )}
+          {props.data.length > 0 ? (
+            <Grid item xs={12} l={12}>
+              <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
+                {"Total: $" + total}
+              </Typography>
+            </Grid>
+          ) : null}
         </Grid>
       </Paper>
     </Container>

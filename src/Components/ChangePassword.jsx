@@ -115,7 +115,7 @@ function ChangePassword(props) {
             sx={{
               marginTop: 10,
               marginBottom: 16,
-              height: 540,
+              height: 570,
               width: 400,
               alignItems: "center",
               opacity: 0.9,

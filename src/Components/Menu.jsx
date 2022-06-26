@@ -19,8 +19,6 @@ function Menu(props) {
       success: function (data) {
         data = JSON.stringify(data);
         menu = JSON.parse(data);
-
-        console.log(menu);
       },
     });
   }

@@ -12,39 +12,31 @@ import Contact from "./Contact.jsx";
 import $ from "jquery";
 import Cart from "./Cart.jsx";
 import Register from "./Register.jsx";
-
 import { Routes, Route } from "react-router-dom";
 
 function App() {
 
+  useEffect(() => {});
+
   const [quantity, setQuantity] = useState(0);
 
   const [cart, setCart] = useState({
-    numItems : quantity,
-    menuItems : [],
-  });
-
-  useEffect(() => {
-    
+    numItems: quantity,
+    menuItems: [],
   });
 
   function addToCart(item) {
-
     setQuantity(quantity + 1);
 
-    setCart(prevState => ({
-      menuItems: [...prevState.menuItems, item]
+    setCart((prevState) => ({
+      menuItems: [...prevState.menuItems, item],
     }));
-
-    localStorage.setItem("cart", cart);
-    localStorage.setItem("quantity", quantity);
   }
 
   function removeFromCart(item) {
-
     setQuantity(quantity - 1);
 
-    setCart({menuItems: cart.menuItems.filter((i, index) => index !== item)});
+    setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
   }
 
   return (
@@ -62,7 +54,11 @@ function App() {
           <Route exact path="menu" element={<Menu add={addToCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
-          <Route exact path="cart" element={<Cart data={cart.menuItems} remove={removeFromCart} />} />
+          <Route
+            exact
+            path="cart"
+            element={<Cart data={cart.menuItems} remove={removeFromCart} />}
+          />
           <Route exact path="register" element={<Register />} />
         </Routes>
       </Container>
