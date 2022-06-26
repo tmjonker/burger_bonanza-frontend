@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import { useNavigate } from "react-router-dom";
+import CartItems from "./CartItems.jsx";
+import DialogBox from "./DialogBox.jsx";
 
 const theme = createTheme({
   palette: {
@@ -16,10 +12,6 @@ const theme = createTheme({
       main: "#C41E3A",
     },
   },
-});
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function Cart(props) {
@@ -61,43 +53,7 @@ function Cart(props) {
             <PageHeader message="Cart" />
           </Grid>
           {props.data.length > 0 ? (
-            props.data.map((item, index) => (
-              <React.Fragment key={index}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  sx={{ marginBottom: 3 }}
-                >
-                  <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
-                    <img className="menu-item" src={"./" + item.img} />
-                  </Grid>
-                  <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
-                    <Typography variant="h5" component="div">
-                      {item.name}
-                    </Typography>
-                  </Grid>
-                  <Grid item l={3} sx={{ border: 0, padding: 1, width: 600 }}>
-                    <Typography variant="h5" component="div">
-                      {item.description}
-                    </Typography>
-                  </Grid>
-                  <Grid item l={3} sx={{ border: 0, padding: 1 }}>
-                    <Typography variant="h5" component="div">
-                      ${item.price}
-                    </Typography>
-                  </Grid>
-                  <Grid item l={3} sx={{ padding: 1 }}>
-                    <Button
-                      style={{ color: "#C41E3A" }}
-                      onClick={() => props.remove(index)}
-                    >
-                      Remove
-                    </Button>
-                  </Grid>
-                </Grid>
-              </React.Fragment>
-            ))
+            <CartItems data={props.data} remove={props.remove} />
           ) : (
             <Grid
               container
@@ -133,24 +89,14 @@ function Cart(props) {
                     Check Out
                   </Button>
                 </ThemeProvider>
-                <Dialog
+
+                <DialogBox
                   open={open}
-                  TransitionComponent={Transition}
-                  keepMounted
-                  onClose={handleClose}
-                  aria-describedby="alert-dialog-slide-description"
-                  disableScrollLock={true}
-                >
-                  <DialogTitle>{"Please log in first"}</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                      You must be logged in to check out.
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose}>OK</Button>
-                  </DialogActions>
-                </Dialog>
+                  title="Please log in first"
+                  text="You must be logged in to check out."
+                  close={handleClose}
+                />
+
               </Grid>
             </div>
           ) : null}

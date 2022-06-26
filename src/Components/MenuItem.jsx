@@ -1,10 +1,6 @@
 import { Typography, Paper, Grid, Button, Container } from "@mui/material";
 import React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import DialogBox from "./DialogBox.jsx";
 import Slide from "@mui/material/Slide";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -70,25 +66,12 @@ function MenuItem(props) {
             Add To Cart
           </Button>
         </ThemeProvider>
-
-        <Dialog
+        <DialogBox
           open={open}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-          aria-describedby="alert-dialog-slide-description"
-          disableScrollLock={true}
-        >
-          <DialogTitle>{"Cart"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              {props.item.name} has been added to your cart.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
+          title="Cart"
+          text={props.item.name + " has been added to your cart."}
+          close={handleClose}
+        />
       </Paper>
     </Grid>
   );
