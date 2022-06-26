@@ -64,6 +64,9 @@ function ChangePassword(props) {
 
         navigate("/");
       },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert("Password Incorrect");
+      },
     });
   }
 
@@ -142,6 +145,7 @@ function ChangePassword(props) {
                   value={values.username}
                   onChange={handleChange("username")}
                   sx={{ marginX: 1, marginTop: 3 }}
+                  required
                 />
                 <TextField
                   id="old-password-field"
@@ -152,6 +156,7 @@ function ChangePassword(props) {
                   value={values.oldPassword}
                   onChange={handleChange("oldPassword")}
                   sx={{ marginX: 1, marginTop: 3 }}
+                  required
                 />
                 <TextField
                   id="new-password-field"
@@ -162,6 +167,7 @@ function ChangePassword(props) {
                   value={values.newPassword}
                   onChange={handleChange("newPassword")}
                   sx={{ marginX: 1, my: 3 }}
+                  required
                 />
               </Grid>
               <Grid

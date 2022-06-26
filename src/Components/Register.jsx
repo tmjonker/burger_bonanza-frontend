@@ -34,7 +34,7 @@ function Register(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    register(values);
+    validatePasswords();
 
     setValues({
       ...values,
@@ -44,7 +44,16 @@ function Register(props) {
     });
   }
 
-  function register(values) {
+  function validatePasswords() {
+
+    if (values.password1 !== values.password2) {
+        alert("Passwords must match.");
+    } else {
+        register();
+    }
+  }
+
+  function register() {
     const credentials = {
       username: values.username,
       password1: values.password1,
@@ -64,7 +73,7 @@ function Register(props) {
         navigate("/sign-in");
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-        alert("Password Incorrect");
+        alert("User with that username already exists.");
       }
     });
   }

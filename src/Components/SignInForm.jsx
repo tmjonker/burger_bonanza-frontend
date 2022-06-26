@@ -2,12 +2,13 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 import AddForm from "./AddForm.jsx";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -135,7 +136,7 @@ function SignInForm() {
                   autoComplete="current-password"
                   value={values.password}
                   onChange={handleChange("password")}
-                  sx={{ marginX: 1, my: 3 }}
+                  sx={{ marginX: 1, marginTop: 3, marginBottom: 1 }}
                   required
                 />
               </Grid>
@@ -145,8 +146,26 @@ function SignInForm() {
                 direction="row"
                 alignItems="center"
                 justifyContent="center"
+              >
+                <Link
+                  to={"forgot"}
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <Typography variant="subtitle1" noWrap component="div">
+                    Forgot Password?
+                  </Typography>
+                </Link>
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
                 sx={{
-                  marginTop: 3,
+                  marginTop: 2,
                 }}
               >
                 <ThemeProvider theme={theme}>

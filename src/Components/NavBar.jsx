@@ -31,7 +31,10 @@ function NavBar(props) {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const pages = user === null ? ["Menu", "Contact Us", "Register"] : ["Menu", "Contact Us"];
+  const pages =
+    user === null
+      ? ["Menu", "Contact Us", "Register", "Sign-In"]
+      : ["Menu", "Contact Us"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -147,6 +150,8 @@ function NavBar(props) {
                             ? "order"
                             : page === "Register"
                             ? "register"
+                            : page === "Sign-In"
+                            ? "sign-in"
                             : null
                         }
                         style={{ color: "black", textDecoration: "none" }}
@@ -191,6 +196,8 @@ function NavBar(props) {
                         ? "order"
                         : page === "Register"
                         ? "register"
+                        : page === "Sign-In"
+                        ? "sign-in"
                         : null
                     }
                     style={{ textDecoration: "none" }}
