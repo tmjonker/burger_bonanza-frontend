@@ -45,7 +45,7 @@ function MenuItem(props) {
       >
         <img
           className="menu-item"
-          src={"./" + props.item.img}
+          src={props.item.img}
           alt="appetizer 1"
         />
         <Typography variant="h5" gutterBottom component="div">

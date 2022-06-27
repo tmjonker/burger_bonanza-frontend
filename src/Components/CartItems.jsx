@@ -10,10 +10,11 @@ function CartItems(props) {
         container
         direction="row"
         justifyContent="center"
+        alignItems="center"
         sx={{ marginBottom: 3 }}
       >
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
-          <img className="menu-item" src={"./" + item.img} />
+          <img className="cart-item" src={item.img} />
         </Grid>
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
           <Typography variant="h5" component="div">
@@ -21,7 +22,7 @@ function CartItems(props) {
           </Typography>
         </Grid>
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 600 }}>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" component="div" >
             {item.description}
           </Typography>
         </Grid>

@@ -43,12 +43,21 @@ h4 {
 }
 
 .menu-item {
-  width: 60%;
+  height: 125px;
+  width: 160px;
   margin: 10px;
+  display: block;
 }
 
 .menu-header {
   color: white;
+}
+
+.cart-item {
+  height: 105px;
+  width: 140px;
+  margin: 10px;
+  display: block;
 }
 
 footer {

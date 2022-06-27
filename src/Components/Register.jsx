@@ -26,9 +26,10 @@ function Register(props) {
     password2: ""
   });
 
-  const handleChange = (prop) => (event) => {
+
+  function handleChange(prop, event) {
     setValues({ ...values, [prop]: event.target.value });
-  };
+  }
 
   // function that processes submit, calls method that sends POST request, and resets values to blank.
   function handleSubmit(event) {
@@ -117,7 +118,7 @@ function Register(props) {
                   type="text"
                   autoComplete="username"
                   value={values.username}
-                  onChange={handleChange("username")}
+                  onChange={(e) => handleChange("username", e)}
                   sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
@@ -128,7 +129,7 @@ function Register(props) {
                   type="password"
                   autoComplete="current-password"
                   value={values.password1}
-                  onChange={handleChange("password1")}
+                  onChange={(e) => handleChange("password1", e)}
                   sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
@@ -138,7 +139,7 @@ function Register(props) {
                   variant="outlined"
                   type="password"
                   value={values.password2}
-                  onChange={handleChange("password2")}
+                  onChange={(e) => handleChange("password2", e)}
                   sx={{ marginX: 1, my: 3 }}
                   required
                 />
