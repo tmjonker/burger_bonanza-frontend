@@ -17,7 +17,7 @@ import Order from "./Order.jsx";
 
 function App() {
   useEffect(() => {
-    
+    setUserCart();
   });
 
   const [quantity, setQuantity] = useState(0);
@@ -33,11 +33,16 @@ function App() {
       let user = JSON.parse(localStorage.getItem("user"));
       let token = user.token;
 
+      let shoppingCart = {
+        numItems: quantity,
+        menuItems: cart.menuItems
+      }
+
       $.ajax({
         type: "post",
         headers: { Authorization: token },
         url: "http://localhost:8080/cart/" + user.username,
-        data: JSON.stringify(cart),
+        data: JSON.stringify(shoppingCart),
         contentType: "application/json; charset=utf-8",
         traditional: true,
 
@@ -93,16 +98,16 @@ function App() {
         }}
       >
         <Routes>
-          <Route exact path="/" element={<MainPage />} />
+          <Route exact path="/" element={<MainPage get={getUserCart} />} />
           <Route exact path="add" element={<AddForm />} />
           <Route exact path="sign-in" element={<SignInForm />} />
-          <Route exact path="menu" element={<Menu add={addToCart} />} />
+          <Route exact path="menu" element={<Menu add={addToCart} persist={setUserCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
           <Route
             exact
             path="cart"
-            element={<Cart data={cart.menuItems} remove={removeFromCart} />}
+            element={<Cart data={cart.menuItems} remove={removeFromCart} persist={setUserCart} />}
           />
           <Route exact path="register" element={<Register />} />
           <Route exact path="order" element={<Order data={cart.menuItems} />} />

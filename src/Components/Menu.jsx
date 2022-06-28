@@ -3,8 +3,13 @@ import React from "react";
 import $ from "jquery";
 import MenuItem from "./MenuItem.jsx";
 import PageHeader from "./PageHeader.jsx";
+import { useEffect } from "react";
 
 function Menu(props) {
+  useEffect(() => {
+    props.persist();
+  },[]);
+
   let menu;
 
   // GET request to retrieve menu items from database.
@@ -27,20 +32,15 @@ function Menu(props) {
   function createMenuItem(menu) {
     let menuItem = {
       key: menu.id,
+      id: menu.id,
       name: menu.name,
       price: menu.price,
       description: menu.description,
-      img: menu.imgPath,
+      imgPath: menu.imgPath,
       category: menu.category,
     };
 
-    return (
-      <MenuItem
-        key={menuItem.key}
-        item={menuItem}
-        add={props.add}
-      />
-    );
+    return <MenuItem key={menuItem.key} item={menuItem} add={props.add} />;
   }
 
   getMenu(); // GET menu items from database before returning view.

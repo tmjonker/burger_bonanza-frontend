@@ -15,6 +15,11 @@ const theme = createTheme({
 });
 
 function Cart(props) {
+
+  useEffect(() => {
+    props.persist();
+  },[]);
+  
   const navigate = useNavigate();
   let total = 0;
 
