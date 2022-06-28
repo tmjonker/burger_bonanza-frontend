@@ -45,7 +45,9 @@ h4 {
 .menu-item {
   height: 125px;
   width: 160px;
-  margin: 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: block;
 }
 

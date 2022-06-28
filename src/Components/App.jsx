@@ -16,8 +16,9 @@ import { Routes, Route } from "react-router-dom";
 import Order from "./Order.jsx";
 
 function App() {
-
-  useEffect(() => {});
+  useEffect(() => {
+    
+  });
 
   const [quantity, setQuantity] = useState(0);
 
@@ -25,6 +26,49 @@ function App() {
     numItems: quantity,
     menuItems: [],
   });
+
+  function setUserCart() {
+    if (localStorage.getItem("user") !== null) {
+
+      let user = JSON.parse(localStorage.getItem("user"));
+      let token = user.token;
+
+      $.ajax({
+        type: "post",
+        headers: { Authorization: token },
+        url: "http://localhost:8080/cart/" + user.username,
+        data: JSON.stringify(cart),
+        contentType: "application/json; charset=utf-8",
+        traditional: true,
+
+        success: function (data) {},
+        error: function (XMLHttpRequest, textStatus, errorThrown) {},
+      });
+    }
+  }
+
+  function getUserCart() {
+    if (localStorage.getItem("user") !== null) {
+
+      let user = JSON.parse(localStorage.getItem("user"));
+      let token = user.token;
+
+      $.ajax({
+        type: "get",
+        headers: { Authorization: token },
+        url: "http://localhost:8080/cart/" + user.username,
+        contentType: "application/json; charset=utf-8",
+        traditional: true,
+
+        success: function (data) {
+          let cart = JSON.parse(JSON.stringify(data));
+          setCart({menuItems: cart.menuItems});
+          setQuantity(cart.numItems);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {},
+      });
+    }
+  }
 
   function addToCart(item) {
     setQuantity(quantity + 1);
