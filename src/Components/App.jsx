@@ -47,7 +47,9 @@ function App() {
         traditional: true,
 
         success: function (data) {},
-        error: function (XMLHttpRequest, textStatus, errorThrown) {},
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          localStorage.clear();
+        },
       });
     }
   }
@@ -70,7 +72,9 @@ function App() {
           setCart({menuItems: cart.menuItems});
           setQuantity(cart.numItems);
         },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {},
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          localStorage.clear();
+        },
       });
     }
   }
