@@ -20,7 +20,6 @@ const theme = createTheme({
 });
 
 function SignInForm(props) {
-
   const navigate = useNavigate();
 
   const [values, setValues] = React.useState({
@@ -72,7 +71,9 @@ function SignInForm(props) {
 
         let user = JSON.parse(token);
 
-        props.get();
+        if (props.quantity <= 0) {
+          props.get(); // Retrieves saved user cart upon sign-in.
+        }
 
         user.username === "admin"
           ? navigate("/add", { state: user.token })

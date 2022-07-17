@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
-import PageHeader from "./PageHeader.jsx";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React from "react";
+import { Typography, Grid, Button } from "@mui/material";
 
 function CartItems(props) {
   return props.data.map((item, index) => (
@@ -34,7 +32,7 @@ function CartItems(props) {
         <Grid item l={3} sx={{ padding: 1 }}>
           <Button
             style={{ color: "#C41E3A" }}
-            onClick={() => props.remove(index)}
+            onClick={() => props.remove(index)} // Removed item from cart.
           >
             Remove
           </Button>

@@ -59,6 +59,7 @@ function NavBar(props) {
     setAnchorEl(null);
 
     if (user !== null) {
+      props.persist();
       localStorage.removeItem("user");
       props.clear();
       navigate("/");

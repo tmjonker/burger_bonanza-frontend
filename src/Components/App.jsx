@@ -24,10 +24,11 @@ function App() {
     menuItems: [],
   });
 
-  useEffect(() => {
+  useEffect(() => { // Saves user cart when quantity changes.
     setUserCart();
   },[quantity]);
 
+  // Saves user cart to database.
   function setUserCart() {
     if (localStorage.getItem("user") !== null) {
 
@@ -55,6 +56,7 @@ function App() {
     }
   }
 
+  // Retrieves user cart from database.
   function getUserCart() {
     if (localStorage.getItem("user") !== null) {
 
@@ -102,7 +104,7 @@ function App() {
 
   return (
     <main>
-      <NavBar quantity={quantity} clear={clearCart} />
+      <NavBar quantity={quantity} clear={clearCart} persist={setUserCart} />
       <Container
         sx={{
           paddingY: 3,
@@ -111,7 +113,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<MainPage get={getUserCart} />} />
           <Route exact path="add" element={<AddForm />} />
-          <Route exact path="sign-in" element={<SignInForm persist={setUserCart} get={getUserCart} />} />
+          <Route exact path="sign-in" element={<SignInForm persist={setUserCart} get={getUserCart} quantity={quantity} />} />
           <Route exact path="menu" element={<Menu add={addToCart} persist={setUserCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
