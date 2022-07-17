@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 function Menu(props) {
   useEffect(() => {
-    props.persist();
+    
   },[]);
 
   let menu;
@@ -40,7 +40,7 @@ function Menu(props) {
       category: menu.category,
     };
 
-    return <MenuItem key={menuItem.key} item={menuItem} add={props.add} />;
+    return <MenuItem key={menuItem.key} item={menuItem} add={props.add} persist={props.persist} />;
   }
 
   getMenu(); // GET menu items from database before returning view.

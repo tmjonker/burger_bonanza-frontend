@@ -16,9 +16,6 @@ import { Routes, Route } from "react-router-dom";
 import Order from "./Order.jsx";
 
 function App() {
-  useEffect(() => {
-    setUserCart();
-  });
 
   const [quantity, setQuantity] = useState(0);
 
@@ -26,6 +23,10 @@ function App() {
     numItems: quantity,
     menuItems: [],
   });
+
+  useEffect(() => {
+    setUserCart();
+  },[quantity]);
 
   function setUserCart() {
     if (localStorage.getItem("user") !== null) {
@@ -93,9 +94,15 @@ function App() {
     setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
   }
 
+  function clearCart() {
+
+    setCart({menuItems: []});
+    setQuantity(0);
+  }
+
   return (
     <main>
-      <NavBar quantity={quantity} />
+      <NavBar quantity={quantity} clear={clearCart} />
       <Container
         sx={{
           paddingY: 3,
@@ -104,7 +111,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<MainPage get={getUserCart} />} />
           <Route exact path="add" element={<AddForm />} />
-          <Route exact path="sign-in" element={<SignInForm />} />
+          <Route exact path="sign-in" element={<SignInForm persist={setUserCart} get={getUserCart} />} />
           <Route exact path="menu" element={<Menu add={addToCart} persist={setUserCart} />} />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />

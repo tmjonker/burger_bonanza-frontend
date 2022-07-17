@@ -29,6 +29,7 @@ function MenuItem(props) {
 
   function handleClick(item) {
     props.add(item);
+    props.persist();
     handleClickOpen();
   }
 

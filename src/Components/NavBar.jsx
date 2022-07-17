@@ -60,6 +60,7 @@ function NavBar(props) {
 
     if (user !== null) {
       localStorage.removeItem("user");
+      props.clear();
       navigate("/");
     } else {
       navigate("/sign-in");

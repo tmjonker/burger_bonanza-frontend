@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 import AddForm from "./AddForm.jsx";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -18,7 +19,8 @@ const theme = createTheme({
   },
 });
 
-function SignInForm() {
+function SignInForm(props) {
+
   const navigate = useNavigate();
 
   const [values, setValues] = React.useState({
@@ -69,6 +71,8 @@ function SignInForm() {
         localStorage.setItem("user", token);
 
         let user = JSON.parse(token);
+
+        props.get();
 
         user.username === "admin"
           ? navigate("/add", { state: user.token })
