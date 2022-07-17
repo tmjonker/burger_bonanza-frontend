@@ -59,9 +59,9 @@ function NavBar(props) {
     setAnchorEl(null);
 
     if (user !== null) {
-      props.persist();
+      props.persist(); // Saves cart to database before logging out.
       localStorage.removeItem("user");
-      props.clear();
+      props.clear(); // Clears cart contents after log out.
       navigate("/");
     } else {
       navigate("/sign-in");
