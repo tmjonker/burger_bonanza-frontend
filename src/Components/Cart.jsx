@@ -19,13 +19,13 @@ function Cart(props) {
   useEffect(() => {
     props.persist();
   },[]);
-  
+
   const navigate = useNavigate();
   let total = 0;
 
   props.data.map((item) => (total += item.price));
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);

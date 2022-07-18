@@ -93,7 +93,6 @@ function Register(props) {
             sx={{
               marginTop: 10,
               marginBottom: 16,
-              height: 500,
               width: 400,
               alignItems: "center",
               opacity: 0.9,
@@ -140,7 +139,7 @@ function Register(props) {
                   type="password"
                   value={values.password2}
                   onChange={(e) => handleChange("password2", e)}
-                  sx={{ marginX: 1, my: 3 }}
+                  sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
               </Grid>
@@ -155,7 +154,7 @@ function Register(props) {
                 }}
               >
                 <ThemeProvider theme={theme}>
-                  <Button variant="contained" type="submit">
+                  <Button variant="contained" type="submit" sx={{marginBottom: 3}}>
                     Submit
                   </Button>
                 </ThemeProvider>
