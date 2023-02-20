@@ -16,7 +16,7 @@ function Menu(props) {
   function getMenu() {
     $.ajax({
       type: "get",
-      url: "http://localhost:8080/api/menu",
+      url: "http://localhost:8081/api/menu",
       contentType: "application/json; charset=utf-8",
       async: false,
       traditional: true,

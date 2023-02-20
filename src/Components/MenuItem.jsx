@@ -1,12 +1,7 @@
-import { Typography, Paper, Grid, Button, Container } from "@mui/material";
+import { Typography, Paper, Grid, Button } from "@mui/material";
 import React from "react";
 import DialogBox from "./DialogBox.jsx";
-import Slide from "@mui/material/Slide";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const theme = createTheme({
   palette: {

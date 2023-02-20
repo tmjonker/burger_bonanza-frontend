@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
+import { Typography, Container, Paper, Grid, Button } from "@mui/material";
 import PageHeader from "./PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -15,11 +15,12 @@ const theme = createTheme({
 });
 
 function Cart(props) {
-
   useEffect(() => {
-    props.persist();
-  },[]);
+    
+  });
 
+  props.persist();
+  
   const navigate = useNavigate();
   let total = 0;
 
@@ -101,7 +102,6 @@ function Cart(props) {
                   text="You must be logged in to check out."
                   close={handleClose}
                 />
-
               </Grid>
             </div>
           ) : null}

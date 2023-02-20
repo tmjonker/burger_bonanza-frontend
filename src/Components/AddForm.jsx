@@ -71,7 +71,7 @@ function AddForm(props) {
     $.ajax({
       type: "post",
       headers: { Authorization: token },
-      url: "http://localhost:8080/api/menu/" + values.id,
+      url: "http://localhost:8081/api/menu/" + values.id,
       data: JSON.stringify(menuItem),
       contentType: "application/json; charset=utf-8",
       traditional: true,

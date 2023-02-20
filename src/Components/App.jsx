@@ -13,7 +13,6 @@ import $ from "jquery";
 import Cart from "./Cart.jsx";
 import Register from "./Register.jsx";
 import { Routes, Route } from "react-router-dom";
-import Order from "./Order.jsx";
 import CheckOut from "./CheckOut.jsx";
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
 
   useEffect(() => {
     // Saves user cart when quantity changes.
-    getUserCart();
+    setUserCart();
   }, [quantity]);
 
   // Saves user cart to database.
@@ -36,14 +35,14 @@ function App() {
       let token = user.token;
 
       let shoppingCart = {
-        numItems: quantity,
+        numItems: cart.numItems,
         menuItems: cart.menuItems,
       };
 
       $.ajax({
         type: "post",
         headers: { Authorization: token },
-        url: "http://localhost:8080/cart/" + user.username,
+        url: "http://localhost:8081/cart/" + user.username,
         data: JSON.stringify(shoppingCart),
         contentType: "application/json; charset=utf-8",
         traditional: true,
@@ -65,14 +64,24 @@ function App() {
       $.ajax({
         type: "get",
         headers: { Authorization: token },
-        url: "http://localhost:8080/cart/" + user.username,
+        url: "http://localhost:8081/cart/" + user.username,
         contentType: "application/json; charset=utf-8",
         traditional: true,
 
         success: function (data) {
-          let cart = JSON.parse(JSON.stringify(data));
-          setCart({ menuItems: cart.menuItems });
-          setQuantity(cart.numItems);
+          if (!data) {
+            setCart({
+              menuItems: [],
+            });
+
+            setQuantity(0);
+
+            setUserCart();
+          } else {
+            let cart = JSON.parse(JSON.stringify(data));
+            setCart({ menuItems: cart.menuItems });
+            setQuantity(cart.numItems);
+          }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           localStorage.clear();
@@ -93,6 +102,7 @@ function App() {
     setQuantity(quantity - 1);
 
     setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
+    setUserCart();
   }
 
   function clearCart() {

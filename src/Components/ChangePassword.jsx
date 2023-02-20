@@ -55,7 +55,7 @@ function ChangePassword(props) {
     $.ajax({
       type: "post",
       headers: { Authorization: token },
-      url: "http://localhost:8080/change",
+      url: "http://localhost:8081/change",
       data: JSON.stringify(credentials),
       contentType: "application/json; charset=utf-8",
       traditional: true,
