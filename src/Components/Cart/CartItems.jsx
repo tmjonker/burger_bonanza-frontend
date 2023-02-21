@@ -12,7 +12,6 @@ function CartItems(props) {
         index = i;
     });
 
-    console.log(index);
     props.remove(index);
   }
 

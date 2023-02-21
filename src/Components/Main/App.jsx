@@ -28,6 +28,10 @@ function App() {
     setUserCart();
   }, [quantity]);
 
+  useEffect(() => {
+    getUserCart();
+  }, []);
+
   // Saves user cart to database.
   function setUserCart() {
     if (localStorage.getItem("user") !== null) {
@@ -71,23 +75,13 @@ function App() {
         traditional: true,
 
         success: function (data) {
-          if (!data) {
-            setCart({
-              menuItems: [],
-            });
-
-            setQuantity(0);
-            console.log("New cart created!");
-            setUserCart();
-          } else {
-            console.log("Cart has been retrieved!");
-            let cart = JSON.parse(JSON.stringify(data));
-            setCart({ menuItems: cart.menuItems });
-            setQuantity(cart.numItems);
-          }
+          console.log("Cart has been retrieved!");
+          let cart = JSON.parse(JSON.stringify(data));
+          setCart({ menuItems: cart.menuItems });
+          setQuantity(cart.numItems);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-          localStorage.clear();
+          console.log("Error when retrieving cart.");
         },
       });
     }
@@ -104,7 +98,7 @@ function App() {
   function removeFromCart(item) {
     setQuantity(quantity - 1);
 
-    setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item)});
+    setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
   }
 
   function clearCart() {
@@ -158,7 +152,11 @@ function App() {
               />
             }
           />
-          <Route exact path="register" element={<Register />} />
+          <Route
+            exact
+            path="register"
+            element={<Register persist={setUserCart} />}
+          />
           <Route
             exact
             path="order"

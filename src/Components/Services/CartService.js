@@ -1,5 +1,3 @@
-
-
 let uniqueItems = [];
 let duplicates = [];
 let currentCart = [];
@@ -39,7 +37,6 @@ const CartService = {
           }
           if (i === cart.length - 1) duplicates[index] = counter;
         }
-        console.log(uniqueItems);
         return this.mapQuantities();
       },
       mapQuantities: function mapQuantities() {

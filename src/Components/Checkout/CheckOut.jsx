@@ -31,8 +31,6 @@ function CheckOut(props) {
       zipCode: ""
   });
 
-  currentCart.map((item) => (total += item.quantity * item.item.price));
-
   function handleChange(prop, event) {
     setValues({ ...values, [prop]: event.target.value });
   }
@@ -90,7 +88,7 @@ function CheckOut(props) {
                   component="div"
                   sx={{ marginBottom: 2 }}
                 >
-                  {"Total: $" + total}
+                  {"Total: $" + Math.round(total * 100) / 100}
                 </Typography>
               </Grid>
             </div>
