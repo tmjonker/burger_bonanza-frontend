@@ -23,8 +23,6 @@ function App() {
     menuItems: [],
   });
 
-  const [hasDuplicates, setHasDuplicates] = useState(false);
-
   useEffect(() => {
     // Saves user cart when quantity changes.
     setUserCart();
@@ -154,7 +152,6 @@ function App() {
             path="cart"
             element={
               <Cart
-                duplicates={hasDuplicates}
                 data={cart.menuItems}
                 remove={removeFromCart}
                 persist={setUserCart}

@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import CartItems from "./CartItems.jsx";
 import DialogBox from "../General/DialogBox.jsx";
+import CartService from "../Services/CartService.js";
 
 const theme = createTheme({
   palette: {
@@ -15,16 +16,14 @@ const theme = createTheme({
 });
 
 function Cart(props) {
+  let total = CartService.calculateTotal(props.data);
+  let currentCart = CartService.processDuplicates(props.data);
+
   useEffect(() => {
     props.persist();
   }, []);
 
   const navigate = useNavigate();
-
-  let total = 0;
-  let duplicates = [];
-  let uniqueItems = [];
-  let currentCart = [];
 
   const [open, setOpen] = useState(false);
 
@@ -36,72 +35,13 @@ function Cart(props) {
     setOpen(false);
   }
 
-  function calculateTotal() {
-    props.data.map((item) => (total += item.price));
-  }
-
   function handleClick() {
     if (localStorage.getItem("user") === null) {
       handleClickOpen();
     } else {
-      navigate("/order", { state: currentCart });
+      navigate("/order");
     }
   }
-
-  function processDuplicates() {
-    let sortCart = props.data;
-    sortCart.sort((a, b) => {
-      if (a.id > b.id) return 1;
-      else if (b.id > a.id) return -1;
-      return 0;
-    });
-
-    let counter = 1;
-    let index = 0;
-
-    for (let i = 0; i < sortCart.length; i++) {
-      if (!equals(uniqueItems, sortCart[i]))
-        uniqueItems.push(sortCart[i]);
-
-      for (let j = i + 1; j < sortCart.length; j++) {
-        if (sortCart[i].id !== sortCart[j].id) {
-          duplicates[index++] = counter;
-          i = j - 1;
-          counter = 1;
-          break;
-        }
-        duplicates[index] = ++counter;
-      }
-      if (duplicates[index] === sortCart.length) {
-        break;
-      }
-      if (i === sortCart.length - 1) duplicates[index] = counter;
-    }
-    console.log(uniqueItems);
-  }
-
-  function equals(cart, item) {
-    
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].id === item.id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function mapQuantities() {
-    for (let i = 0; i < uniqueItems.length; i++) {
-      currentCart[i] = {
-        item: uniqueItems[i],
-        quantity: duplicates[i],
-      };
-    }
-  }
-
-  calculateTotal();
-  processDuplicates();
-  mapQuantities();
 
   return (
     <Container maxWidth="xl">

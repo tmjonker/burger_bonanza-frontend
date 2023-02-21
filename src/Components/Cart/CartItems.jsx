@@ -10,7 +10,9 @@ function CartItems(props) {
     props.old.map((current, i) => {
       if (current.id === cartItem.item.id)
         index = i;
-    })
+    });
+
+    console.log(index);
     props.remove(index);
   }
 

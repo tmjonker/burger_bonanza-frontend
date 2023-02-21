@@ -4,9 +4,13 @@ import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CartItems from "../Cart/CartItems.jsx";
 import TextField from "@mui/material/TextField";
-import { useLocation } from "react-router-dom";
+import CartService from "../Services/CartService.js";
 
 function CheckOut(props) {
+  useEffect(() => {
+    props.persist()
+  }, []);
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -15,14 +19,8 @@ function CheckOut(props) {
     },
   });
 
-  let currentCart;
-  let total = 0;
-
-  const location = useLocation();
-
-  if (location.state !== null) {
-    currentCart = location.state;
-  }
+  let total = CartService.calculateTotal(props.data);
+  let currentCart = CartService.processDuplicates(props.data);
 
   const [values, setValues] = React.useState({
     name: "",
@@ -33,7 +31,7 @@ function CheckOut(props) {
       zipCode: ""
   });
 
-  currentCart.map((item) => (total += item.price));
+  currentCart.map((item) => (total += item.quantity * item.item.price));
 
   function handleChange(prop, event) {
     setValues({ ...values, [prop]: event.target.value });
@@ -69,7 +67,7 @@ function CheckOut(props) {
             <PageHeader message="Cart" />
           </Grid>
           {currentCart.length > 0 ? (
-            <CartItems data={currentCart} remove={props.remove} />
+            <CartItems data={currentCart} old={props.data} remove={props.remove} />
           ) : (
             <Grid
               container
