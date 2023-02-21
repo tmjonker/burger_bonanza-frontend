@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Grid, Button } from "@mui/material";
 
 function CartItems(props) {
-  return props.data.map((item, index) => (
+  return props.data.map((current, index) => (
     <React.Fragment key={index}>
       <Grid
         container
@@ -12,21 +12,26 @@ function CartItems(props) {
         sx={{ marginBottom: 3 }}
       >
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
-          <img className="cart-item" src={item.imgPath} />
+          <img className="cart-item" src={current.item.imgPath} />
         </Grid>
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
           <Typography variant="h5" component="div">
-            {item.name}
+            {current.item.name}
           </Typography>
         </Grid>
-        <Grid item l={3} sx={{ border: 0, padding: 1, width: 600 }}>
+        <Grid item l={3} sx={{ border: 0, padding: 1, width: 550 }}>
           <Typography variant="h5" component="div" >
-            {item.description}
+            {current.item.description}
           </Typography>
         </Grid>
         <Grid item l={3} sx={{ border: 0, padding: 1 }}>
           <Typography variant="h5" component="div">
-            ${item.price}
+          {current.quantity}
+          </Typography>
+        </Grid>
+        <Grid item l={3} sx={{ border: 0, padding: 1 }}>
+          <Typography variant="h5" component="div">
+            ${current.item.price * current.quantity}
           </Typography>
         </Grid>
         <Grid item l={3} sx={{ padding: 1 }}>

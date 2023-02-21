@@ -16,25 +16,29 @@ const theme = createTheme({
 
 function Cart(props) {
   useEffect(() => {
-    
-  });
+    props.persist();
+  }, []);
 
-  props.persist();
-  
   const navigate = useNavigate();
-  let total = 0;
 
-  props.data.map((item) => (total += item.price));
+  let total = 0;
+  let duplicates = [];
+  let uniqueItems = [];
+  let currentCart = [];
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  function handleClickOpen() {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  function handleClose() {
     setOpen(false);
   };
+
+  function calculateTotal() {
+    props.data.map((item) => (total += item.price));
+  }
 
   function handleClick() {
     if (localStorage.getItem("user") === null) {
@@ -43,6 +47,51 @@ function Cart(props) {
       navigate("/order");
     }
   }
+
+  function processDuplicates() {
+    props.data.sort((a,b) => {
+      if (a.id > b.id)
+        return 1;
+      else if (b.id > a.id) 
+        return -1
+      return 0;
+    });
+
+    let counter = 1;
+    let index = 0;
+
+    for (let i = 0; i < props.data.length; i++) {
+      uniqueItems.push(props.data[i]);
+      for (let j = i+1; j < props.data.length; j++) {
+        if (props.data[i].id !== props.data[j].id) {
+          duplicates[index++] = counter;
+          i = j - 1;
+          counter = 1;
+          break;
+        } 
+        duplicates[index] = ++counter;
+      }
+      if (duplicates[index] === props.data.length) {
+        uniqueItems.push(props.data[i]);
+        break;
+      }
+      if (i === props.data.length - 1) 
+        duplicates[index] = counter;
+    }
+  }
+
+  function mapQuantities() {
+    for (let i = 0; i < uniqueItems.length; i++) {
+      currentCart[i] = {
+        item: uniqueItems[i],
+        quantity: duplicates[i]
+      }
+    }
+  }
+
+  calculateTotal();
+  processDuplicates();
+  mapQuantities();
 
   return (
     <Container maxWidth="xl">
@@ -58,8 +107,8 @@ function Cart(props) {
           <Grid item xs={12} l={12}>
             <PageHeader message="Cart" />
           </Grid>
-          {props.data.length > 0 ? (
-            <CartItems data={props.data} remove={props.remove} />
+          {currentCart.length > 0 ? (
+            <CartItems data={currentCart} remove={props.remove} />
           ) : (
             <Grid
               container
@@ -82,7 +131,7 @@ function Cart(props) {
                   component="div"
                   sx={{ marginBottom: 2 }}
                 >
-                  {"Total: $" + total}
+                  {"Total: $" + Math.round(total*100)/100}
                 </Typography>
               </Grid>
               <Grid item xs={12} l={12} sx={{ marginBottom: 3 }}>

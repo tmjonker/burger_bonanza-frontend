@@ -259,6 +259,8 @@ function NavBar(props) {
                     </div>
                   ) : user !== null && user.username !== "admin" ? (
                     <div>
+                      <p className="greeting">{user.username}</p>
+                      <hr />
                       <MenuItem onClick={handleAddMenuClick}>
                         {user !== null ? "Personal Information" : null}
                       </MenuItem>

@@ -23,6 +23,8 @@ function App() {
     menuItems: [],
   });
 
+  const [hasDuplicates, setHasDuplicates] = useState(false);
+
   useEffect(() => {
     // Saves user cart when quantity changes.
     setUserCart();
@@ -35,7 +37,7 @@ function App() {
       let token = user.token;
 
       let shoppingCart = {
-        numItems: cart.numItems,
+        numItems: quantity,
         menuItems: cart.menuItems,
       };
 
@@ -47,7 +49,9 @@ function App() {
         contentType: "application/json; charset=utf-8",
         traditional: true,
 
-        success: function (data) {},
+        success: function () {
+          console.log("Cart successfully saved!");
+        },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           localStorage.clear();
         },
@@ -75,9 +79,10 @@ function App() {
             });
 
             setQuantity(0);
-
+            console.log("New cart created!");
             setUserCart();
           } else {
+            console.log("Cart has been retrieved!");
             let cart = JSON.parse(JSON.stringify(data));
             setCart({ menuItems: cart.menuItems });
             setQuantity(cart.numItems);
@@ -91,6 +96,10 @@ function App() {
   }
 
   function addToCart(item) {
+
+    if (quantity >= 1)
+      checkForDuplicates(item);
+
     setQuantity(quantity + 1);
 
     setCart((prevState) => ({
@@ -102,12 +111,23 @@ function App() {
     setQuantity(quantity - 1);
 
     setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
-    setUserCart();
   }
 
   function clearCart() {
     setCart({ menuItems: [] });
     setQuantity(0);
+  }
+
+  function checkForDuplicates(item) {
+
+    for (let i = 0; i < cart.menuItems.length; i++) {
+
+      if (cart.menuItems[i].name === item.name) {
+        setHasDuplicates(true);
+        break;
+      }
+    }
+    console.log(hasDuplicates);
   }
 
   return (
@@ -135,7 +155,13 @@ function App() {
           <Route
             exact
             path="menu"
-            element={<Menu add={addToCart} persist={setUserCart} />}
+            element={
+              <Menu
+                data={cart.menuItems}
+                add={addToCart}
+                persist={setUserCart}
+              />
+            }
           />
           <Route exact path="change" element={<ChangePassword />} />
           <Route exact path="contact" element={<Contact />} />
@@ -144,6 +170,7 @@ function App() {
             path="cart"
             element={
               <Cart
+                duplicates={hasDuplicates}
                 data={cart.menuItems}
                 remove={removeFromCart}
                 persist={setUserCart}
