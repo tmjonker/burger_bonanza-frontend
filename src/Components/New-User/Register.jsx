@@ -3,12 +3,14 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import PageHeader from "./PageHeader.jsx";
+import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 
-const theme = createTheme({
+function Register(props) {
+
+    const theme = createTheme({
   palette: {
     primary: {
       main: "#C41E3A",
@@ -16,96 +18,69 @@ const theme = createTheme({
   },
 });
 
-function ChangePassword(props) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const token = location.state;
 
   const [values, setValues] = React.useState({
     username: "",
-    oldPassword: "",
-    newPassword: "",
+    password1: "",
+    password2: ""
   });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
 
+  function handleChange(prop, event) {
+    setValues({ ...values, [prop]: event.target.value });
+  }
+
+  // function that processes submit, calls method that sends POST request, and resets values to blank.
   function handleSubmit(event) {
     event.preventDefault();
 
-    signIn(values);
+    validatePasswords();
 
     setValues({
       ...values,
       username: "",
-      oldPassword: "",
-      newPassword: "",
+      password1: "",
+      password2: ""
     });
   }
 
-  function signIn(values) {
+  function validatePasswords() {
+
+    if (values.password1 !== values.password2) {
+        alert("Passwords must match.");
+    } else {
+        register();
+    }
+  }
+
+  function register() {
     const credentials = {
       username: values.username,
-      oldPassword: values.oldPassword,
-      newPassword: values.newPassword,
+      password1: values.password1,
+      password2: values.password2
     };
 
     // POST request to authenticate login information.  Token is returned by server and stored in localStorage.
     $.ajax({
       type: "post",
-      headers: { Authorization: token },
-      url: "http://localhost:8081/change",
+      url: "http://localhost:8081/register",
       data: JSON.stringify(credentials),
       contentType: "application/json; charset=utf-8",
       traditional: true,
-      success: function (user) {
-        alert("Password successfully changed...");
 
-        navigate("/");
+      success: function (data) {
+
+        navigate("/sign-in");
       },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert("Password Incorrect");
-      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("User with that username already exists.");
+      }
     });
   }
 
-  // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
-  if (token === null) {
     return (
-      <div>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          sx={{
-            display: { xs: "flex" },
-          }}
-        >
-          <Grid item xs={12}>
-            <Paper
-              elevation={3}
-              sx={{
-                marginTop: 10,
-                marginBottom: 16,
-                height: 200,
-                width: 650,
-                alignItems: "center",
-                opacity: 0.9,
-              }}
-            >
-              <PageHeader message="Authorization Required" />
-              <p className="unauthorized">Must be authorized!</p>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    );
-  } else {
-    return (
-      <div>
+        <div>
         <Grid
           container
           spacing={0}
@@ -118,13 +93,12 @@ function ChangePassword(props) {
             sx={{
               marginTop: 10,
               marginBottom: 16,
-              height: 570,
               width: 400,
               alignItems: "center",
               opacity: 0.9,
             }}
           >
-            <PageHeader message="Change Password" />
+            <PageHeader message="Register" />
             <form onSubmit={handleSubmit}>
               <Grid
                 container
@@ -143,30 +117,29 @@ function ChangePassword(props) {
                   type="text"
                   autoComplete="username"
                   value={values.username}
-                  onChange={handleChange("username")}
+                  onChange={(e) => handleChange("username", e)}
                   sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
                 <TextField
-                  id="old-password-field"
-                  label="Old Password"
+                  id="password1-field"
+                  label="Password"
                   variant="outlined"
                   type="password"
                   autoComplete="current-password"
-                  value={values.oldPassword}
-                  onChange={handleChange("oldPassword")}
+                  value={values.password1}
+                  onChange={(e) => handleChange("password1", e)}
                   sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
                 <TextField
-                  id="new-password-field"
-                  label="New Password"
+                  id="password2-field"
+                  label="Verify Password"
                   variant="outlined"
                   type="password"
-                  autoComplete="new-password"
-                  value={values.newPassword}
-                  onChange={handleChange("newPassword")}
-                  sx={{ marginX: 1, my: 3 }}
+                  value={values.password2}
+                  onChange={(e) => handleChange("password2", e)}
+                  sx={{ marginX: 1, marginTop: 3 }}
                   required
                 />
               </Grid>
@@ -181,7 +154,7 @@ function ChangePassword(props) {
                 }}
               >
                 <ThemeProvider theme={theme}>
-                  <Button variant="contained" type="submit">
+                  <Button variant="contained" type="submit" sx={{marginBottom: 3}}>
                     Submit
                   </Button>
                 </ThemeProvider>
@@ -191,7 +164,6 @@ function ChangePassword(props) {
         </Grid>
       </div>
     );
-  }
 }
 
-export default ChangePassword;
+export default Register;

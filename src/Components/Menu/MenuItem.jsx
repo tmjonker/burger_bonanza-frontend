@@ -1,6 +1,6 @@
 import { Typography, Paper, Grid, Button } from "@mui/material";
 import React from "react";
-import DialogBox from "./DialogBox.jsx";
+import DialogBox from "../General/DialogBox.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({

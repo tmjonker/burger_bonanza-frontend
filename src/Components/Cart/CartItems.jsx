@@ -2,6 +2,18 @@ import React from "react";
 import { Typography, Grid, Button } from "@mui/material";
 
 function CartItems(props) {
+
+  function onRemove(cartItem) {
+
+    let index;
+
+    props.old.map((current, i) => {
+      if (current.id === cartItem.item.id)
+        index = i;
+    })
+    props.remove(index);
+  }
+
   return props.data.map((current, index) => (
     <React.Fragment key={index}>
       <Grid
@@ -12,7 +24,7 @@ function CartItems(props) {
         sx={{ marginBottom: 3 }}
       >
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
-          <img className="cart-item" src={current.item.imgPath} />
+          <img className="cart-item" alt="alt placeholder" src={current.item.imgPath} />
         </Grid>
         <Grid item l={3} sx={{ border: 0, padding: 1, width: 150 }}>
           <Typography variant="h5" component="div">
@@ -37,7 +49,7 @@ function CartItems(props) {
         <Grid item l={3} sx={{ padding: 1 }}>
           <Button
             style={{ color: "#C41E3A" }}
-            onClick={() => props.remove(index)} // Removed item from cart.
+            onClick={() => onRemove(current)} // Removed item from cart.
           >
             Remove
           </Button>

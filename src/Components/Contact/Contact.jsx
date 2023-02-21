@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import PageHeader from "./PageHeader.jsx";
+import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import $ from "jquery";
 

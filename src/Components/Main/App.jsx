@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "../App.css";
-import SignInForm from "./SignInForm.jsx";
-import NavBar from "./NavBar.jsx";
+import "../../App.css";
+import SignInForm from "../Current-User/SignInForm.jsx";
+import NavBar from "../Nav/NavBar.jsx";
 import Container from "@mui/material/Container";
-import AddForm from "./AddForm.jsx";
+import AddForm from "../Admin/AddForm.jsx";
 import Footer from "./Footer.jsx";
 import MainPage from "./MainPage.jsx";
-import Menu from "./Menu.jsx";
-import ChangePassword from "./ChangePassword.jsx";
-import Contact from "./Contact.jsx";
+import Menu from "../Menu/Menu.jsx";
+import ChangePassword from "../Current-User/ChangePassword.jsx";
+import Contact from "../Contact/Contact.jsx";
 import $ from "jquery";
-import Cart from "./Cart.jsx";
-import Register from "./Register.jsx";
+import Cart from "../Cart/Cart.jsx";
+import Register from "../New-User/Register.jsx";
 import { Routes, Route } from "react-router-dom";
-import CheckOut from "./CheckOut.jsx";
+import CheckOut from "../Checkout/CheckOut.jsx";
 
 function App() {
   const [quantity, setQuantity] = useState(0);
@@ -96,10 +96,6 @@ function App() {
   }
 
   function addToCart(item) {
-
-    if (quantity >= 1)
-      checkForDuplicates(item);
-
     setQuantity(quantity + 1);
 
     setCart((prevState) => ({
@@ -110,24 +106,12 @@ function App() {
   function removeFromCart(item) {
     setQuantity(quantity - 1);
 
-    setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item) });
+    setCart({ menuItems: cart.menuItems.filter((i, index) => index !== item)});
   }
 
   function clearCart() {
     setCart({ menuItems: [] });
     setQuantity(0);
-  }
-
-  function checkForDuplicates(item) {
-
-    for (let i = 0; i < cart.menuItems.length; i++) {
-
-      if (cart.menuItems[i].name === item.name) {
-        setHasDuplicates(true);
-        break;
-      }
-    }
-    console.log(hasDuplicates);
   }
 
   return (

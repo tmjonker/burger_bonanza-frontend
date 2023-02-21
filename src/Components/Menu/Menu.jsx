@@ -2,7 +2,7 @@ import { Container, Paper, Grid } from "@mui/material";
 import React from "react";
 import $ from "jquery";
 import MenuItem from "./MenuItem.jsx";
-import PageHeader from "./PageHeader.jsx";
+import PageHeader from "../General/PageHeader.jsx";
 import { useEffect } from "react";
 
 function Menu(props) {

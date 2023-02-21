@@ -2,13 +2,11 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import { Button, Typography } from "@mui/material";
-import PageHeader from "./PageHeader.jsx";
+import { Button } from "@mui/material";
+import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import $ from "jquery";
-import AddForm from "./AddForm.jsx";
-import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -18,19 +16,21 @@ const theme = createTheme({
   },
 });
 
-function SignInForm(props) {
+function ChangePassword(props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const token = location.state;
 
   const [values, setValues] = React.useState({
     username: "",
-    password: "",
+    oldPassword: "",
+    newPassword: "",
   });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  // function that processes submit, calls method that sends POST request, and resets values to blank.
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -39,44 +39,30 @@ function SignInForm(props) {
     setValues({
       ...values,
       username: "",
-      password: "",
+      oldPassword: "",
+      newPassword: "",
     });
   }
 
   function signIn(values) {
     const credentials = {
       username: values.username,
-      password: values.password,
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword,
     };
 
     // POST request to authenticate login information.  Token is returned by server and stored in localStorage.
     $.ajax({
       type: "post",
-      url: "http://localhost:8081/authenticate",
+      headers: { Authorization: token },
+      url: "http://localhost:8081/change",
       data: JSON.stringify(credentials),
       contentType: "application/json; charset=utf-8",
       traditional: true,
+      success: function (user) {
+        alert("Password successfully changed...");
 
-      success: function (data) {
-        let tokenString = JSON.stringify(data);
-        let token = JSON.stringify({
-          token: "Bearer " + JSON.parse(tokenString).token.token,
-          username: credentials.username,
-          password: credentials.password,
-          roles: JSON.parse(tokenString).user.roles,
-        });
-
-        localStorage.setItem("user", token);
-
-        let user = JSON.parse(token);
-
-        if (props.quantity <= 0) {
-          props.get(); // Retrieves saved user cart upon sign-in.
-        }
-
-        user.username === "admin"
-          ? navigate("/add", { state: user.token })
-          : navigate("/menu", { state: user.token });
+        navigate("/");
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         alert("Password Incorrect");
@@ -84,10 +70,39 @@ function SignInForm(props) {
     });
   }
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  if (user !== null) {
-    return <AddForm token={user.token} />;
+  // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
+  if (token === null) {
+    return (
+      <div>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            display: { xs: "flex" },
+          }}
+        >
+          <Grid item xs={12}>
+            <Paper
+              elevation={3}
+              sx={{
+                marginTop: 10,
+                marginBottom: 16,
+                height: 200,
+                width: 650,
+                alignItems: "center",
+                opacity: 0.9,
+              }}
+            >
+              <PageHeader message="Authorization Required" />
+              <p className="unauthorized">Must be authorized!</p>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    );
   } else {
     return (
       <div>
@@ -103,13 +118,13 @@ function SignInForm(props) {
             sx={{
               marginTop: 10,
               marginBottom: 16,
-              height: 420,
+              height: 570,
               width: 400,
               alignItems: "center",
               opacity: 0.9,
             }}
           >
-            <PageHeader message="Sign-in" />
+            <PageHeader message="Change Password" />
             <form onSubmit={handleSubmit}>
               <Grid
                 container
@@ -133,14 +148,25 @@ function SignInForm(props) {
                   required
                 />
                 <TextField
-                  id="password-field"
-                  label="Password"
+                  id="old-password-field"
+                  label="Old Password"
                   variant="outlined"
                   type="password"
                   autoComplete="current-password"
-                  value={values.password}
-                  onChange={handleChange("password")}
-                  sx={{ marginX: 1, marginTop: 3, marginBottom: 1 }}
+                  value={values.oldPassword}
+                  onChange={handleChange("oldPassword")}
+                  sx={{ marginX: 1, marginTop: 3 }}
+                  required
+                />
+                <TextField
+                  id="new-password-field"
+                  label="New Password"
+                  variant="outlined"
+                  type="password"
+                  autoComplete="new-password"
+                  value={values.newPassword}
+                  onChange={handleChange("newPassword")}
+                  sx={{ marginX: 1, my: 3 }}
                   required
                 />
               </Grid>
@@ -150,26 +176,8 @@ function SignInForm(props) {
                 direction="row"
                 alignItems="center"
                 justifyContent="center"
-              >
-                <Link
-                  to={"forgot"}
-                  style={{
-                    textDecoration: "none",
-                  }}
-                >
-                  <Typography variant="subtitle1" noWrap component="div">
-                    Forgot Password?
-                  </Typography>
-                </Link>
-              </Grid>
-              <Grid
-                container
-                spacing={0}
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
                 sx={{
-                  marginTop: 2,
+                  marginTop: 3,
                 }}
               >
                 <ThemeProvider theme={theme}>
@@ -186,4 +194,4 @@ function SignInForm(props) {
   }
 }
 
-export default SignInForm;
+export default ChangePassword;

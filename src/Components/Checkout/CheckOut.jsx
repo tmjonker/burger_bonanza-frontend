@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
-import PageHeader from "./PageHeader.jsx";
+import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CartItems from "./CartItems.jsx";
+import CartItems from "../Cart/CartItems.jsx";
 import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function CheckOut(props) {
   const theme = createTheme({
@@ -15,7 +15,14 @@ function CheckOut(props) {
     },
   });
 
-  const navigate = useNavigate();
+  let currentCart;
+  let total = 0;
+
+  const location = useLocation();
+
+  if (location.state !== null) {
+    currentCart = location.state;
+  }
 
   const [values, setValues] = React.useState({
     name: "",
@@ -26,9 +33,7 @@ function CheckOut(props) {
       zipCode: ""
   });
 
-  let total = 0;
-
-  props.data.map((item) => (total += item.price));
+  currentCart.map((item) => (total += item.price));
 
   function handleChange(prop, event) {
     setValues({ ...values, [prop]: event.target.value });
@@ -63,8 +68,8 @@ function CheckOut(props) {
           <Grid item xs={12} l={12}>
             <PageHeader message="Cart" />
           </Grid>
-          {props.data.length > 0 ? (
-            <CartItems data={props.data} remove={props.remove} />
+          {currentCart.length > 0 ? (
+            <CartItems data={currentCart} remove={props.remove} />
           ) : (
             <Grid
               container
@@ -79,7 +84,7 @@ function CheckOut(props) {
               </Grid>
             </Grid>
           )}
-          {props.data.length > 0 ? (
+          {currentCart.length > 0 ? (
             <div>
               <Grid item xs={12} l={12}>
                 <Typography
