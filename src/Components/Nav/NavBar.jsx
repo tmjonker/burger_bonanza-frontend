@@ -73,7 +73,7 @@ function NavBar(props) {
     const userString = localStorage.getItem("user");
     const user = JSON.parse(userString);
 
-    navigate("/add", { state: user.token });
+    navigate("/add", { state: user });
   }
 
   function handleChangePwClick() {

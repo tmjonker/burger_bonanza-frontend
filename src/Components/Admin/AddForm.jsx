@@ -21,13 +21,16 @@ const theme = createTheme({
 });
 
 function AddForm(props) {
+  
   const location = useLocation();
-  let token;
+  let user;
   if (location.state !== null) {
-    token = location.state; // Token that is passed over from signing in.
+    user = location.state; // Token that is passed over from signing in.
   } else {
-    token = props.token; // Token that is passed when user is already logged in and access the sign in page.
+    user = props.user; // Token that is passed when user is already logged in and access the sign in page.
   }
+
+  let isAdmin = checkIsAdmin();
 
   // initialize values
   const [values, setValues] = React.useState({
@@ -70,7 +73,7 @@ function AddForm(props) {
 
     $.ajax({
       type: "post",
-      headers: { Authorization: token },
+      headers: { Authorization: user.token },
       url: "http://localhost:8081/api/menu/" + values.id,
       data: JSON.stringify(menuItem),
       contentType: "application/json; charset=utf-8",
@@ -81,8 +84,16 @@ function AddForm(props) {
     });
   }
 
+  function checkIsAdmin() {
+    for (let i = 0; i < user.roles.length; i++) {
+      if (user.roles[i].name === "Admin")
+        return true;
+    }
+    return false;
+  }
+
   // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
-  if (token === null && token.roles.includes("Admin")) {
+  if (user === null || !isAdmin) {
     return (
       <div>
         <Grid

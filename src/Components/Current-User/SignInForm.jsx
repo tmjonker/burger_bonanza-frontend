@@ -75,7 +75,7 @@ function SignInForm(props) {
         }
 
         user.username === "admin"
-          ? navigate("/add", { state: user.token })
+          ? navigate("/add", { state: user })
           : navigate("/menu", { state: user.token });
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
