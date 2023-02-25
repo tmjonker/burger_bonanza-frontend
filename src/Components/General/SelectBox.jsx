@@ -12,8 +12,6 @@ export default function SelectBox() {
     setCategory(event.target.value);
   };
 
-
-
   return (
     <Box sx={{ minWidth: 230, marginX: 1 }}>
       <FormControl fullWidth>

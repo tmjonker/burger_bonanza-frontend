@@ -19,10 +19,9 @@ const theme = createTheme({
 function ChangePassword(props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const token = location.state;
+  const user = location.state;
 
   const [values, setValues] = React.useState({
-    username: "",
     oldPassword: "",
     newPassword: "",
   });
@@ -38,7 +37,6 @@ function ChangePassword(props) {
 
     setValues({
       ...values,
-      username: "",
       oldPassword: "",
       newPassword: "",
     });
@@ -46,7 +44,7 @@ function ChangePassword(props) {
 
   function signIn(values) {
     const credentials = {
-      username: values.username,
+      username: user.username,
       oldPassword: values.oldPassword,
       newPassword: values.newPassword,
     };
@@ -54,7 +52,7 @@ function ChangePassword(props) {
     // POST request to authenticate login information.  Token is returned by server and stored in localStorage.
     $.ajax({
       type: "post",
-      headers: { Authorization: token },
+      headers: { Authorization: user.token },
       url: "http://localhost:8081/change",
       data: JSON.stringify(credentials),
       contentType: "application/json; charset=utf-8",
@@ -69,9 +67,9 @@ function ChangePassword(props) {
       },
     });
   }
-
+  
   // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
-  if (token === null) {
+  if (user === null) {
     return (
       <div>
         <Grid
@@ -141,11 +139,9 @@ function ChangePassword(props) {
                   label="Username"
                   variant="outlined"
                   type="text"
-                  autoComplete="username"
-                  value={values.username}
-                  onChange={handleChange("username")}
+                  defaultValue={user.username}
                   sx={{ marginX: 1, marginTop: 3 }}
-                  required
+                  disabled
                 />
                 <TextField
                   id="old-password-field"

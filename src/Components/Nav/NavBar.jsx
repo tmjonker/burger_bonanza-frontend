@@ -82,7 +82,7 @@ function NavBar(props) {
     const userString = localStorage.getItem("user");
     const user = JSON.parse(userString);
 
-    navigate("/change", { state: user.token });
+    navigate("/change", { state: user });
   }
 
   return (
@@ -249,6 +249,8 @@ function NavBar(props) {
                 >
                   {user !== null && user.username === "admin" ? (
                     <div>
+                      <p className="greeting">{user.username}</p>
+                      <hr />
                       <MenuItem onClick={handleAddMenuClick}>
                         {user !== null ? "Add Menu Item" : null}
                       </MenuItem>

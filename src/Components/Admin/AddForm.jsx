@@ -82,7 +82,7 @@ function AddForm(props) {
   }
 
   // if valid token isn't passed over, then page was accessed without a sign-in.  User must sign-in to access this page.
-  if (token === null) {
+  if (token === null && token.roles.includes("Admin")) {
     return (
       <div>
         <Grid
