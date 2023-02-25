@@ -13,6 +13,10 @@ body {
   background-attachment: fixed;
 }
 
+a:hover { 
+  color: white;
+}
+
 html {
   position: relative;
   min-height: 100%;

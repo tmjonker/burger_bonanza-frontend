@@ -116,6 +116,7 @@ function NavBar(props) {
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   color="inherit"
+                  sx={{ pl: 0 }}
                 >
                   <MenuIcon />
                 </IconButton>
@@ -164,25 +165,23 @@ function NavBar(props) {
                 </Menu>
               </Box>
 
-              <Link
-                to={"/"}
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                }}
-              >
+              
                 <Typography
                   variant="h6"
                   noWrap
-                  component="div"
+                  component="a"
+                  href="/"
                   sx={{
-                    flexGrow: 0,
                     display: { xs: "flex", md: "none" },
+                    flexGrow: 1,
+                    mr: 2,
+                    color: "inherit",
+                    textDecoration: "none"
                   }}
                 >
                   Burger Bonanza!
                 </Typography>
-              </Link>
+            
 
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
@@ -228,6 +227,7 @@ function NavBar(props) {
                   aria-haspopup="true"
                   onClick={handleMenu}
                   color="inherit"
+                  sx={{ pr: 0}}
                 >
                   <AccountCircle />
                 </IconButton>
