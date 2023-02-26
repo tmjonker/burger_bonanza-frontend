@@ -7,7 +7,7 @@ import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
-import { Link } from "react-router-dom";
+import ValidateService from "../Services/ValidateService.js";
 import DialogBox from "../General/DialogBox.jsx";
 
 function Register(props) {
@@ -55,11 +55,11 @@ function Register(props) {
     event.preventDefault();
 
     if (
-      validatePasswordsMatch() &&
-      validatePassword1() &&
-      validatePassword2()
+      ValidateService.validatePasswordsMatch(values) &&
+      ValidateService.validatePassword1(values) &&
+      ValidateService.validatePassword2(values)
     ) {
-      if (validateUsername()) {
+      if (ValidateService.validateUsername(values)) {
         setValues({
           ...values,
           username: "",
@@ -74,31 +74,6 @@ function Register(props) {
     } else {
       handlePwClickOpen();
     }
-  }
-
-  function validateUsername() {
-    const unRegex = new RegExp(/^[a-zA-Z0-9]+$/);
-
-    return unRegex.test(values.username);
-  }
-
-  const pwRegex = new RegExp(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-  );
-
-  function validatePasswordsMatch() {
-    if (values.password1 !== values.password2) {
-      return false;
-    }
-    return true;
-  }
-
-  function validatePassword1() {
-    return pwRegex.test(values.password1);
-  }
-
-  function validatePassword2() {
-    return pwRegex.test(values.password2);
   }
 
   function register() {
@@ -157,7 +132,7 @@ function Register(props) {
               }}
             >
               <TextField
-                error={!validateUsername()}
+                error={!ValidateService.validateUsername(values)}
                 id="username-field"
                 label="Username"
                 variant="outlined"
@@ -177,13 +152,13 @@ function Register(props) {
                 close={handleUnClose}
               />
               <TextField
-                error={!validatePasswordsMatch() || !validatePassword1()}
+                error={!ValidateService.validatePasswordsMatch(values) || !ValidateService.validatePassword1(values)}
                 id="password1-field"
                 label="Password"
                 variant="outlined"
                 type="password"
                 helperText={
-                  !validatePassword1() ? "Passwords must meet guidelines." : ""
+                  !ValidateService.validatePassword1(values) ? "Passwords must meet guidelines." : ""
                 }
                 autoComplete="current-password"
                 value={values.password1}
@@ -192,13 +167,13 @@ function Register(props) {
                 required
               />
               <TextField
-                error={!validatePasswordsMatch() || !validatePassword2()}
+                error={!ValidateService.validatePasswordsMatch(values) || !ValidateService.validatePassword2(values)}
                 id="password2-field"
                 label="Verify Password"
                 variant="outlined"
                 type="password"
                 helperText={
-                  !validatePassword2() ? "Passwords must meet guidelines." : ""
+                  !ValidateService.validatePassword2(values) ? "Passwords must meet guidelines." : ""
                 }
                 value={values.password2}
                 onChange={(e) => handleChange("password2", e)}

@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import CartItems from "./CartItems.jsx";
 import DialogBox from "../General/DialogBox.jsx";
-import CartService from "../Services/CartService.js";
+import CartService from "../Services/CartService";
 
 const theme = createTheme({
   palette: {
