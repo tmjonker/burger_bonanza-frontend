@@ -23,6 +23,7 @@ function DialogBox(props) {
             onClose={props.close}
             aria-describedby="alert-dialog-slide-description"
             disableScrollLock={true}
+            maxWidth="xs"
         >
             <DialogTitle>{props.title}</DialogTitle>
             <DialogContent>
