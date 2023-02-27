@@ -5,11 +5,16 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CartItems from "../Cart/CartItems.jsx";
 import TextField from "@mui/material/TextField";
 import CartService from "../Services/CartService.js";
+import DialogBox from "../General/DialogBox.jsx";
+import { useNavigate } from "react-router-dom";
+import $ from "jquery";
 
 function CheckOut(props) {
   useEffect(() => {
-    props.persist()
+    props.persist();
   }, []);
+
+  const navigate = useNavigate();
 
   const theme = createTheme({
     palette: {
@@ -19,17 +24,29 @@ function CheckOut(props) {
     },
   });
 
-  let total = CartService.calculateTotal(props.data);
-  let currentCart = CartService.processDuplicates(props.data);
+  let total = CartService.calculateTotal(props.data.menuItems);
+  let currentCart = CartService.processDuplicates(props.data.menuItems);
 
+  const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
     name: "",
-      address1: "",
-      address2: "",
-      city: "",
-      state: "",
-      zipCode: ""
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    zipCode: "",
   });
+
+  let purchase = {};
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    navigate("/");
+  };
 
   function handleChange(prop, event) {
     setValues({ ...values, [prop]: event.target.value });
@@ -39,6 +56,16 @@ function CheckOut(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
+    purchase = {
+      menuItems: props.data.menuItems,
+      totalPrice: total,
+      username: JSON.parse(localStorage.getItem("user")).username,
+      address: values,
+    };
+
+    handleClickOpen();
+    postPurchase(purchase);
+
     setValues({
       ...values,
       name: "",
@@ -46,7 +73,26 @@ function CheckOut(props) {
       address2: "",
       city: "",
       state: "",
-      zipCode: ""
+      zipCode: "",
+    });
+  }
+
+  function postPurchase(purchase) {
+    $.ajax({
+      type: "post",
+      url: "http://localhost:8081/purchase",
+      data: JSON.stringify(purchase),
+      contentType: "application/json; charset=utf-8",
+      traditional: true,
+
+      success: function (data) {
+        props.clear();
+        props.persist();
+        console.log("Successfully posted purchase");
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("Error posting purchase");
+      },
     });
   }
 
@@ -65,7 +111,11 @@ function CheckOut(props) {
             <PageHeader message="Cart" />
           </Grid>
           {currentCart.length > 0 ? (
-            <CartItems data={currentCart} old={props.data} remove={props.remove} />
+            <CartItems
+              data={currentCart}
+              old={props.data}
+              remove={props.remove}
+            />
           ) : (
             <Grid
               container
@@ -97,14 +147,14 @@ function CheckOut(props) {
       </Paper>
 
       <Paper
-            elevation={3}
-            sx={{
-              marginTop: 3,
-              marginBottom: 10,
-              alignItems: "center",
-              opacity: 0.9,
-            }}
-          >
+        elevation={3}
+        sx={{
+          marginTop: 3,
+          marginBottom: 10,
+          alignItems: "center",
+          opacity: 0.9,
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <Grid
             container
@@ -178,7 +228,7 @@ function CheckOut(props) {
               type="text"
               autoComplete="postal-code"
               value={values.zipCode}
-              onChange={(e) => handleChange("ZipCode", e)}
+              onChange={(e) => handleChange("zipCode", e)}
               sx={{ marginX: 1, marginTop: 3, width: 600 }}
               required
             />
@@ -194,10 +244,20 @@ function CheckOut(props) {
             }}
           >
             <ThemeProvider theme={theme}>
-              <Button variant="contained" type="submit" sx={{marginBottom: 3}}>
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{ marginBottom: 3 }}
+              >
                 Submit
               </Button>
             </ThemeProvider>
+            <DialogBox
+              open={open}
+              title="Purchase Successful"
+              text={"Your purchase has been processed!"}
+              close={handleClose}
+            />
           </Grid>
         </form>
       </Paper>
