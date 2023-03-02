@@ -19,7 +19,7 @@ function App() {
   const [quantity, setQuantity] = useState(0);
 
   const [cart, setCart] = useState({
-    numItems: 0,
+    numItems: quantity,
     menuItems: [],
   });
 
@@ -77,7 +77,7 @@ function App() {
         success: function (data) {
           console.log("Cart has been retrieved!");
           let cart = JSON.parse(JSON.stringify(data));
-          setCart({ numItems: cart.numItems, menuItems: cart.menuItems });
+          setCart({ ...cart, menuItems: cart.menuItems });
           setQuantity(cart.numItems);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -91,7 +91,7 @@ function App() {
     setQuantity(quantity + 1);
 
     setCart((prevState) => ({
-      numItems: cart.numItems++,
+      ...cart,
       menuItems: [...prevState.menuItems, item],
     }));
   }
@@ -100,13 +100,13 @@ function App() {
     setQuantity(quantity - 1);
 
     setCart({
-      numItems: cart.numItems--,
+      ...cart,
       menuItems: cart.menuItems.filter((i, index) => index !== item),
     });
   }
 
   function clearCart() {
-    setCart({ numItems: 0, menuItems: [] });
+    setCart({ ...cart, menuItems: [] });
     setQuantity(0);
   }
 

@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Container, Paper, Grid, Button, Box } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Paper,
+  Grid,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import PageHeader from "../General/PageHeader.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CartItems from "../Cart/CartItems.jsx";
@@ -26,6 +37,7 @@ function CheckOut(props) {
 
   let total = CartService.calculateTotal(props.data.menuItems);
   let currentCart = CartService.processDuplicates(props.data.menuItems);
+  let userAddresses = [];
 
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
@@ -77,9 +89,28 @@ function CheckOut(props) {
     });
   }
 
+  function handleSelectBoxChange(event) {
+
+    let index = event.target.value;
+    console.log(userAddresses[index]);
+
+    setValues({
+      ...values,
+      name: userAddresses[index].name,
+      address1: userAddresses[index].address,
+      address2: userAddresses[index].address2,
+      city: userAddresses[index].city,
+      state: userAddresses[index].state,
+      zipCode: userAddresses[index].zipCode,
+    })
+  }
+
+  let user = JSON.parse(localStorage.getItem("user"));
+
   function postPurchase(purchase) {
     $.ajax({
       type: "post",
+      headers: { Authorization: user.token },
       url: "http://localhost:8081/purchase",
       data: JSON.stringify(purchase),
       contentType: "application/json; charset=utf-8",
@@ -95,6 +126,28 @@ function CheckOut(props) {
       },
     });
   }
+
+  function getUserAddresses() {
+    $.ajax({
+      type: "get",
+      headers: { Authorization: user.token },
+      url: "http://localhost:8081/addresses/" + user.username,
+      contentType: "application/json; charset=utf-8",
+      async: false,
+      traditional: true,
+
+      success: function (data) {
+        console.log("Addresses retrieved successfully.");
+        console.log(data);
+        userAddresses = data;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("Error retrieving addresses.");
+      },
+    });
+  }
+
+  getUserAddresses();
 
   return (
     <Container maxWidth="xl">
@@ -166,6 +219,25 @@ function CheckOut(props) {
               marginTop: 3,
             }}
           >
+            <FormControl
+              fullWidth
+              sx={{ marginX: 1, marginTop: 3, width: 600 }}
+            >
+              <InputLabel id="select-box-label">Saved Addresses</InputLabel>
+              <Select
+                labelId="select-box-label"
+                id="select-box"
+                value=""
+                label="Saved Addresses"
+                onChange={handleSelectBoxChange}
+              >
+                {userAddresses.map((address, index) => (
+                  <MenuItem key={address.id} value={index}>
+                    {address.address}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               id="name-field"
               label="Name"
